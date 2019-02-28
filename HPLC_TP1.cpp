@@ -4,11 +4,11 @@
 #include <ctime> // Pour initialier la graine de rand
 # include <time.h>
 using namespace std;
+#include <omp.h>
 
 int main(int argc, char** argv) {
-	
+	omp_set_num_threads(1);
 	srand((int) time(0));
-
 	int Taille_tab = atoi(argv[1]); // Atoi Ascii to integer
 	double* Tab1;
 	double* Tab2;
