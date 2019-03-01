@@ -10,12 +10,17 @@
 #include <fstream> //
 
 
-using namespace std;
+using namespace std; 
+#define SIZE 200 // Max size of file_name
+
 //#include <omp.h>
 
 int main(int argc, char** argv) {
 	srand((int) time(0));
-	
+
+	char file_name[SIZE];
+	cout << "Entrer le nom du fichier de sortie : ";
+	cin>> file_name
 	int force_forte_faible = atoi(argv[1]); // force forte = 0 ; force faible =1
 	int nb_runs = atoi(argv[2]); // nombre de repetitions
 	string file_name =  "test_main_func.txt"; // Nom du fichier de sortie
