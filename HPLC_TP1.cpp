@@ -7,7 +7,7 @@ using namespace std;
 #include <omp.h>
 
 int main(int argc, char** argv) {
-	omp_set_num_threads(1);
+	omp_set_num_threads(2);
 	srand((int) time(0));
 	int Taille_tab = atoi(argv[1]); // Atoi Ascii to integer
 	double* Tab1;
@@ -42,11 +42,13 @@ int main(int argc, char** argv) {
 	delete [] Tab2;
 	delete [] Tab_sum;
 
+
 	return 0;
 }
 
 void fill(double* Tab , int Taille_tab, int min, int max )
 {
+	#pragma omp for shared(Tab)
 	for (int i =0 ; i< Taille_tab +1 ; i++  ) 
 	{
 		Tab[i] = Random(min, max);
