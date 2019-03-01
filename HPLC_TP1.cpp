@@ -17,10 +17,12 @@ int main(int argc, char** argv) {
 	//OMP_SET_NUM_THREADS(1);
 	srand((int) time(0));
 	int Taille_tab = atoi(argv[1]); // Atoi Ascii to integer
+	
 	double* Tab1;
 	double* Tab2;
 	double* Tab_sum;
-	
+
+
 	double min = 0; 
 	double max = 10; //RAND_MAX;
 
@@ -41,13 +43,15 @@ int main(int argc, char** argv) {
 
 	double s  = sum_vector(Tab1 , Taille_tab);
 	printf("Somme du vecteur 1   :  %f \n" , s);
+	
+	multi_vector(Tab_sum , 2 ,  Taille_tab );
 
 	int after=  (clock() *1000 / CLOCKS_PER_SEC);
 	int diff = after - before;
 	printf("Durée  :  %d \n", diff );
 
   	ofstream myfile;
-  	myfile.open ("result.txt", fstream::app);
+  	myfile.open ("somme_deux_vexct_result.txt", fstream::app);
   	myfile <<  nb_thread <<"\t"<< Taille_tab <<"\t"  << diff <<"\t" <<  "\n";
   	myfile.close();
   
@@ -61,8 +65,8 @@ int main(int argc, char** argv) {
 
 void fill(double* Tab , int Taille_tab, int min, int max )
 {
-	# pragma omp parallel
-	# pragma omp for 
+	
+	# pragma omp parallel for
   	//{
 	for (int i =0 ; i< Taille_tab +1 ; i++  ) 
 		{
@@ -105,8 +109,8 @@ void sum_two_vector(double * v3 , const double * v1 , const double * v2 , const 
 	}
 	else
 	{
-		# pragma omp parallel
-        # pragma omp for 
+		
+        # pragma omp parallel for 
 	  	//{
  		for (int i =0 ; i< taille_v1  ; i++  ) 
  			{
@@ -131,4 +135,22 @@ double sum_vector(const double Tab[], int Taille_tab)
   //}
   return s;
  
+}
+
+void multi_vector(double * v , const double  a ,  const int taille_v    )
+
+{	
+
+	{
+		# pragma omp parallel
+        # pragma omp for 
+	  	//{
+ 		for (int i =0 ; i< taille_v  ; i++  ) 
+ 			{
+ 			
+ 			v[i] = v[i] * a;
+ 			}
+	 //	}
+   	}
+
 }
