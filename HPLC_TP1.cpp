@@ -60,7 +60,6 @@ int main(int argc, char** argv) {
 	delete [] Tab2;
 	delete [] Tab_sum;
 
-
 	return 0;
 }
 
