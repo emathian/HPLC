@@ -47,58 +47,44 @@ int main(int argc, char** argv) {
 	double A = 3;
 	multi_mat( Tab1 , A ,  nb_row ,  nb_col );
 	display(Tab1, nb_row, nb_col);
-/*	
-	multi_vector(Tab_sum , 2 ,  Taille_tab );
 
-	int after=  (clock() *1000 / CLOCKS_PER_SEC);
-	int diff = after - before;
-	printf("Durée  :  %d \n", diff );
-
-  	ofstream myfile;
-  	myfile.open ("somme_deux_vexct_result.txt", fstream::app);
-  	myfile <<  nb_thread <<"\t"<< Taille_tab <<"\t"  << diff <<"\t" <<  "\n";
-  	myfile.close();
-  
-	
-	delete [] Tab1;
-	delete [] Tab2;
-	delete [] Tab_sum;
-*/	
 	delete_matrix(Tab1 , nb_row, nb_col);
 	delete_matrix(Tab2 , nb_row, nb_col);
 	delete_matrix(Tab_sum , nb_row, nb_col);
 	
-	/*for (int i = 0; i < nb_row; ++i)
-	{
-    	
-    	delete [] Tab2[i];
-    	delete [] Tab_sum[i];
-    }
-	
-		delete [] Tab2;
-		delete [] Tab_sum;
-*/
+
 	return 0;
 }
 
-double** generate_matrix( int nb_row, int nb_col){
-	double** Tab = new double*[nb_row];
 
-	for (int i = 0; i < nb_row; ++i){
-		Tab[i] = new double[nb_col];
-		
-	}
-	return Tab;
-}
-
-
-void delete_matrix( double ** Tab,int nb_row, int nb_col){
+void delete_matrix( double ** Tab,int nb_row, int nb_col)
+{
 	for (int i = 0; i < nb_row; ++i)
 	{
     	delete [] Tab[i];
     }
-		delete [] Tab;
-		
+		delete [] Tab;		
+}
+
+
+void display(double** Tab, int nb_row, int nb_col )
+{
+  for (int i = 0; i < nb_row; i++)
+  {
+  	printf("[");
+  	for(int j = 0; j < nb_col; j++)
+  	{
+    	printf("%f", Tab[i][j]);
+    	/* We add a comma, except for the last element */
+    	if (j < nb_row-1) 
+    	{
+      		printf(", ");
+    	}
+  	}
+    printf("]\n");
+   } 
+   printf("\n");
+   printf("\n");
 }
 
 void fill(double** Tab , int nb_row, int nb_col, int min, int max )
@@ -113,32 +99,41 @@ void fill(double** Tab , int nb_row, int nb_col, int min, int max )
 			Tab[i][j] = Random(min, max);
 		}
 	}
-
 }
 
 
-void display(double** Tab, int nb_row, int nb_col )
+
+double** generate_matrix( int nb_row, int nb_col)
 {
-  
-	
-  for (int i = 0; i < nb_row; i++)
-  {
-  	 printf("[");
-  	for(int j = 0; j < nb_col; j++)
-  	{
-    	
-    	printf("%f", Tab[i][j]);
-    	/* We add a comma, except for the last element */
-    	if (j < nb_row-1) 
-    	{
-      	printf(", ");
-    	}
-  	}
-  	printf("]\n");
-   } 
-   printf("\n");
-   printf("\n");
+	double** Tab = new double*[nb_row];
+	for (int i = 0; i < nb_row; ++i)
+	{
+		Tab[i] = new double[nb_col];
+		
+	}
+	return Tab;
 }
+
+
+void multi_mat(double ** m , const double  a ,  const int nb_row , const int nb_col    )
+{	
+	# pragma omp parallel
+    # pragma omp for 
+	  	//{
+
+	for (int i = 0; i < nb_row; i++)
+  	{
+  		for (int j = 0; j < nb_col; j++)
+  		{
+   			m[i][j] = a*  m[i][j];
+  		}
+  	} 	
+	 //	}   	
+}
+
+
+
+
 
 double Random (double min , double max) 
 {	
@@ -146,29 +141,7 @@ double Random (double min , double max)
 	return min + f * (max-min+1); 
 } 
 
-void sum_two_mat(double ** m3 ,  double ** m1 ,  double ** m2 , const int nb_row_m1 , const int nb_col_m1 , const int nb_row_m2 , const int nb_col_m2)
 
-{	
-	if (nb_col_m1!=nb_col_m2 and nb_row_m1!=nb_row_m2 )
-	{
-		printf("Les matrices n'ont pas la même taille. \n " );
-	}
-	else
-	{
-		
-        # pragma omp parallel for 
-	  	//{
- 		for (int i =0 ; i< nb_col_m1  ; i++  ) 
- 		{
- 			for(int j = 0; j < nb_col_m1; j++)
- 			{
- 			m3[i][j] = m1[i][j] + m2[i][j];
- 			}
- 		}
-	 //	}
-   	}
-
-}
 
 double sum_mat( double** m, const int nb_row , const int nb_col)
 {
@@ -177,33 +150,34 @@ double sum_mat( double** m, const int nb_row , const int nb_col)
   # pragma omp parallel for reduction (+:s)
   //{
   for (int i = 0; i < nb_row; i++)
-  	{
+  {
   		for (int j = 0; j < nb_col; j++)
   		{
-   			 s = s + m[i][j];
+   			s = s + m[i][j];
   		}
-  	}
+  }
   //}
   return s;
- 
 }
 
-void multi_mat(double ** m , const double  a ,  const int nb_row , const int nb_col    )
-
+void sum_two_mat(double ** m3 ,  double ** m1 ,  double ** m2 , const int nb_row_m1 , const int nb_col_m1 , const int nb_row_m2 , const int nb_col_m2)
 {	
-		# pragma omp parallel
-        # pragma omp for 
+	if (nb_col_m1!=nb_col_m2 and nb_row_m1!=nb_row_m2 )
+	{
+		printf("Les matrices n'ont pas la même taille. \n " );
+	}
+	else
+	{
+        # pragma omp parallel for 
 	  	//{
-
-		for (int i = 0; i < nb_row; i++)
-  	{
-  		for (int j = 0; j < nb_col; j++)
-  		{
-   			 m[i][j] = a*  m[i][j];
-  		}
-  	} 	
+ 		for (int i =0 ; i< nb_col_m1  ; i++  ) 
+ 		{
+ 			for(int j = 0; j < nb_col_m1; j++)
+ 			{
+ 				m3[i][j] = m1[i][j] + m2[i][j];
+ 			}
+ 		}
 	 //	}
-   	
+   	}
 
 }
-
