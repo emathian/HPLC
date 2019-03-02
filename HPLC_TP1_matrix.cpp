@@ -1,36 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>     /* srand, rand */
-#include "HPLC_TP1.h"
+#include "HPLC_TP1_matrix.h"
 #include <ctime> // Pour initialier la graine de rand
 # include <time.h>
 #include <iostream>
 #include <fstream>
 
 using namespace std;
-#include <omp.h>
+//#include <omp.h>
 
 int main(int argc, char** argv) {
 
 	int nb_thread = atoi(argv[3]);
-	omp_set_num_threads(nb_thread); 
+	//omp_set_num_threads(nb_thread); 
 	
-	//OMP_SET_NUM_THREADS(1);
 	srand((int) time(0));
 	int nb_row = atoi(argv[1]); // Atoi Ascii to integer
 	int nb_col = atoi(argv[2]);
 	
-	double* Tab1;
-	double* Tab2;
-	double* Tab_sum;
+	double** Tab1 = new double*[nb_row];
+	double** Tab2 = new double*[nb_row];;
+	double** Tab_sum = new double*[nb_row];;
 
+
+	for (int i = 0; i < nb_row+1; ++i){
+		Tab1[i] = new double[nb_col];
+		Tab2[i] = new double[nb_col];
+		Tab_sum[i] = new double[nb_col];
+	}
 
 	double min = 0; 
 	double max = 10; //RAND_MAX;
 
-
-	Tab1 = new double[nb_row][nb_col];
-	Tab2 = new double[nb_row][nb_col];
-	Tab_sum = new double[nb_row][nb_col];
 
 	fill (Tab1, nb_row, nb_col, min , max);
 	fill (Tab2, nb_row, nb_col, min , max);
@@ -59,11 +60,21 @@ int main(int argc, char** argv) {
 	delete [] Tab1;
 	delete [] Tab2;
 	delete [] Tab_sum;
-*/fill (Tab2, nb_row, nb_col, min , max);
+*/	
+	for (int i = 0; i < nb_row; ++i)
+	{
+    	delete [] Tab1[i];
+    	delete [] Tab2[i];
+    	delete [] Tab_sum[i];
+    }
+		delete [] Tab1;
+		delete [] Tab2;
+		delete [] Tab_sum;
+
 	return 0;
 }
 
-void fill(double* Tab , int nb_row, int nb_col,int min, int max )
+void fill(double** Tab , int nb_row, int nb_col,int min, int max )
 {
 	
 	# pragma omp parallel for

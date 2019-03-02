@@ -11,7 +11,7 @@
 
 
 using namespace std; 
-#define SIZE 200 // Max size of file_name
+#define SIZE 256// Max size of file_name
 
 //#include <omp.h>
 
@@ -20,10 +20,10 @@ int main(int argc, char** argv) {
 
 	char file_name[SIZE];
 	cout << "Entrer le nom du fichier de sortie : ";
-	cin>> file_name
+	cin>> file_name;
 	int force_forte_faible = atoi(argv[1]); // force forte = 0 ; force faible =1
 	int nb_runs = atoi(argv[2]); // nombre de repetitions
-	string file_name =  "test_main_func.txt"; // Nom du fichier de sortie
+	//string file_name =  "test_main_func.txt"; // Nom du fichier de sortie
 
 	ofstream myfile;
   	myfile.open ( file_name, fstream::app);
@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
 		int Taille_tab =V_Taille_tab[j] ;
 		int nb_thread = V_nb_thread[i];
 		//omp_set_num_threads(nb_thread); 
-		main_func(nb_thread,  Taille_tab );
+		main_func(nb_thread,  Taille_tab, file_name );
 	
 		} // end de i
 	  } // end de j
@@ -69,12 +69,13 @@ int main(int argc, char** argv) {
 			int nb_thread = it->first;			
 			int Taille_tab = it->second ;
 			//omp_set_num_threads(nb_thread); 
-			main_func(nb_thread,  Taille_tab);
+			main_func(nb_thread,  Taille_tab, file_name);
 		} // end it map
 	  } // end z
 	 //  myfile.close();
    } // end else
 	
+	myfile.close();
 	return 0;
 }
 
@@ -170,9 +171,9 @@ void multi_vector(double * v , const double  a ,  const int taille_v    )
 }
 
 
-void main_func(const int nb_thread, const int  Taille_tab){
+void main_func(const int nb_thread, const int  Taille_tab, const char* file_name){
 	ofstream myfile;
-	myfile.open ( "test_main_func.txt", fstream::app);
+	myfile.open ( file_name, fstream::app);
 
 	double* Tab1;
 	double* Tab2;
