@@ -44,8 +44,9 @@ int main(int argc, char** argv) {
 	double s= sum_mat( Tab1, nb_row ,  nb_col);
 	printf("%f\n", s);
 
-	double A = 3
-	multi_mat( Tab1 , A ,  nb_row ,  nb_col )
+	double A = 3;
+	multi_mat( Tab1 , A ,  nb_row ,  nb_col );
+	display(Tab1, nb_row, nb_col);
 /*	
 	multi_vector(Tab_sum , 2 ,  Taille_tab );
 
