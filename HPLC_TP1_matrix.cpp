@@ -40,6 +40,9 @@ int main(int argc, char** argv) {
 
 	sum_two_mat(Tab_sum, Tab1 , Tab2 , nb_row ,  nb_col , nb_row , nb_col);
 	display(Tab_sum, nb_row, nb_col);
+
+	double s= sum_mat( Tab1, nb_row ,  nb_col);
+	printf("%f\n", s);
 /*
 	double s  = sum_vector(Tab1 , Taille_tab);
 	printf("Somme du vecteur 1   :  %f \n" , s);
@@ -132,6 +135,8 @@ void display(double** Tab, int nb_row, int nb_col )
   	}
   	printf("]\n");
    } 
+   printf("\n");
+   printf("\n");
 }
 
 double Random (double min , double max) 
@@ -164,15 +169,18 @@ void sum_two_mat(double ** m3 ,  double ** m1 ,  double ** m2 , const int nb_row
 
 }
 
-double sum_vector(const double Tab[], int Taille_tab)
+double sum_mat( double** m, const int nb_row , const int nb_col)
 {
   int s = 0;
-  int i;
+
   # pragma omp parallel for reduction (+:s)
   //{
-  for (i = 0; i < Taille_tab; i++)
+  for (int i = 0; i < nb_row; i++)
   	{
-    s = s + Tab[i];
+  		for (int j = 0; j < nb_col; j++)
+  		{
+   			 s = s + m[i][j];
+  		}
   	}
   //}
   return s;
