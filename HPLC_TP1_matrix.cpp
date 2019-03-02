@@ -29,18 +29,18 @@ int main(int argc, char** argv) {
 
 
 	fill (Tab1, nb_row, nb_col, min , max);
-	//fill (Tab2, nb_row, nb_col, min , max);
+	fill (Tab2, nb_row, nb_col, min , max);
 
 	display(Tab1, nb_row, nb_col);
-	//display(Tab2, nb_row, nb_col);
+	display(Tab2, nb_row, nb_col);
 	
-/*
+
 	int before = (clock() *1000 / CLOCKS_PER_SEC);
 
 
-	sum_two_vector(Tab_sum , Tab1 , Tab2 ,Taille_tab  , Taille_tab );
-	//display(Tab_sum, Taille_tab);
-
+	sum_two_mat(Tab_sum, Tab1 , Tab2 , nb_row_m1 ,  nb_col_m1 , nb_row_m2 , nb_col_m2)
+	display(Tab_sum, nb_row, nb_col);
+/*
 	double s  = sum_vector(Tab1 , Taille_tab);
 	printf("Somme du vecteur 1   :  %f \n" , s);
 	
@@ -140,23 +140,25 @@ double Random (double min , double max)
 	return min + f * (max-min+1); 
 } 
 
-void sum_two_vector(double * v3 , const double * v1 , const double * v2 , const int taille_v1 , const int taille_v2   )
+void sum_two_mat(double ** m3 , const double ** m1 , const double ** m2 , const int nb_row_m1 , const int nb_col_m1 , const int nb_row_m2 , const int nb_col_m2)
 
 {	
-	if (taille_v1 != taille_v2 )
+	if (nb_col_m1==nb_col_m2 and nb_row_m1==nb_row_m2 )
 	{
-		printf("Les vecteurs ont des longueurs diffférentes" );
+		printf("Les matrices n'ont pas la même taille. " );
 	}
 	else
 	{
 		
         # pragma omp parallel for 
 	  	//{
- 		for (int i =0 ; i< taille_v1  ; i++  ) 
+ 		for (int i =0 ; i< nb_col_m1  ; i++  ) 
+ 		{
+ 			for(int j = 0; j < nb_col_m1; j++)
  			{
- 			
- 			v3[i] = v1[i] + v2[i];
+ 			m3[i][j] = m1[i][j] + m2[i][j];
  			}
+ 		}
 	 //	}
    	}
 
