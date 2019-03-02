@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 	int before = (clock() *1000 / CLOCKS_PER_SEC);
 
 
-	sum_two_mat(Tab_sum, Tab1 , Tab2 , nb_row_m1 ,  nb_col_m1 , nb_row_m2 , nb_col_m2)
+	sum_two_mat(Tab_sum, Tab1 , Tab2 , nb_row ,  nb_col , nb_row , nb_col);
 	display(Tab_sum, nb_row, nb_col);
 /*
 	double s  = sum_vector(Tab1 , Taille_tab);
@@ -140,12 +140,12 @@ double Random (double min , double max)
 	return min + f * (max-min+1); 
 } 
 
-void sum_two_mat(double ** m3 , const double ** m1 , const double ** m2 , const int nb_row_m1 , const int nb_col_m1 , const int nb_row_m2 , const int nb_col_m2)
+void sum_two_mat(double ** m3 ,  double ** m1 ,  double ** m2 , const int nb_row_m1 , const int nb_col_m1 , const int nb_row_m2 , const int nb_col_m2)
 
 {	
-	if (nb_col_m1==nb_col_m2 and nb_row_m1==nb_row_m2 )
+	if (nb_col_m1!=nb_col_m2 and nb_row_m1!=nb_row_m2 )
 	{
-		printf("Les matrices n'ont pas la même taille. " );
+		printf("Les matrices n'ont pas la même taille. \n " );
 	}
 	else
 	{
