@@ -7,12 +7,12 @@
 #include <fstream>
 
 using namespace std;
-#include <omp.h>
+//#include <omp.h>
 
 int main(int argc, char** argv) {
 
 	int nb_thread = atoi(argv[2]);
-	omp_set_num_threads(nb_thread); 
+	//omp_set_num_threads(nb_thread); 
 	
 	//OMP_SET_NUM_THREADS(1);
 	srand((int) time(0));
@@ -35,8 +35,8 @@ int main(int argc, char** argv) {
 
 	fill (Tab1, Taille_tab, min , max);
 	fill (Tab2, Taille_tab, min , max);
-	//display(Tab1, Taille_tab);
-	//display(Tab2,  Taille_tab);
+	display(Tab1, Taille_tab);
+	display(Tab2,  Taille_tab);
 
 	sum_two_vector(Tab_sum , Tab1 , Tab2 ,Taille_tab  , Taille_tab );
 	//display(Tab_sum, Taille_tab);

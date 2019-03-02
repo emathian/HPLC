@@ -11,30 +11,29 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
+	srand((int) time(0));
 	int nb_thread = atoi(argv[3]);
 	//omp_set_num_threads(nb_thread); 
 	
-	srand((int) time(0));
+	
 	int nb_row = atoi(argv[1]); // Atoi Ascii to integer
 	int nb_col = atoi(argv[2]);
 	
-	double** Tab1 = new double*[nb_row];
-	double** Tab2 = new double*[nb_row];;
-	double** Tab_sum = new double*[nb_row];;
+	double** Tab1 = generate_matrix(nb_row,nb_col);
+	double** Tab2 = generate_matrix(nb_row,nb_col);
+	double** Tab_sum = generate_matrix(nb_row,nb_col);
 
-
-	for (int i = 0; i < nb_row+1; ++i){
-		Tab1[i] = new double[nb_col];
-		Tab2[i] = new double[nb_col];
-		Tab_sum[i] = new double[nb_col];
-	}
 
 	double min = 0; 
 	double max = 10; //RAND_MAX;
 
 
 	fill (Tab1, nb_row, nb_col, min , max);
-	fill (Tab2, nb_row, nb_col, min , max);
+	//fill (Tab2, nb_row, nb_col, min , max);
+
+	display(Tab1, nb_row, nb_col);
+	//display(Tab2, nb_row, nb_col);
+	
 /*
 	int before = (clock() *1000 / CLOCKS_PER_SEC);
 
@@ -61,27 +60,51 @@ int main(int argc, char** argv) {
 	delete [] Tab2;
 	delete [] Tab_sum;
 */	
-	for (int i = 0; i < nb_row; ++i)
+	delete_matrix(Tab1 , nb_row, nb_col);
+	delete_matrix(Tab2 , nb_row, nb_col);
+	delete_matrix(Tab_sum , nb_row, nb_col);
+	
+	/*for (int i = 0; i < nb_row; ++i)
 	{
-    	delete [] Tab1[i];
+    	
     	delete [] Tab2[i];
     	delete [] Tab_sum[i];
     }
-		delete [] Tab1;
+	
 		delete [] Tab2;
 		delete [] Tab_sum;
-
+*/
 	return 0;
 }
 
-void fill(double** Tab , int nb_row, int nb_col,int min, int max )
+double** generate_matrix( int nb_row, int nb_col){
+	double** Tab = new double*[nb_row];
+
+	for (int i = 0; i < nb_row; ++i){
+		Tab[i] = new double[nb_col];
+		
+	}
+	return Tab;
+}
+
+
+void delete_matrix( double ** Tab,int nb_row, int nb_col){
+	for (int i = 0; i < nb_row; ++i)
+	{
+    	delete [] Tab[i];
+    }
+		delete [] Tab;
+		
+}
+
+void fill(double** Tab , int nb_row, int nb_col, int min, int max )
 {
 	
 	# pragma omp parallel for
 
-	for (int i =0 ; i< nb_row+1 ; i++)
+	for (int i =0 ; i< nb_row ; i++)
 	{
-		for (int j =0 ; j< nb_col+1 ; j++)
+		for (int j =0 ; j< nb_col ; j++)
 		{
 			Tab[i][j] = Random(min, max);
 		}
@@ -90,22 +113,25 @@ void fill(double** Tab , int nb_row, int nb_col,int min, int max )
 }
 
 
-void display(const double* Tab, int Taille_tab)
+void display(double** Tab, int nb_row, int nb_col )
 {
-  int i;
-  printf("[");
+  
 	
-  for (i = 0; i < Taille_tab; i++)
+  for (int i = 0; i < nb_row; i++)
   {
-    printf("%f", Tab[i]);
-
-    /* We add a comma, except for the last element */
-    if (i < Taille_tab-1) 
-    {
-      printf(", ");
-    }
-  }
-  printf("]\n");
+  	 printf("[");
+  	for(int j = 0; j < nb_col; j++)
+  	{
+    	
+    	printf("%f", Tab[i][j]);
+    	/* We add a comma, except for the last element */
+    	if (j < nb_row-1) 
+    	{
+      	printf(", ");
+    	}
+  	}
+  	printf("]\n");
+   } 
 }
 
 double Random (double min , double max) 
