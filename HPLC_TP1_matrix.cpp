@@ -43,10 +43,10 @@ int main(int argc, char** argv) {
 
 	double s= sum_mat( Tab1, nb_row ,  nb_col);
 	printf("%f\n", s);
-/*
-	double s  = sum_vector(Tab1 , Taille_tab);
-	printf("Somme du vecteur 1   :  %f \n" , s);
-	
+
+	double A = 3
+	multi_mat( Tab1 , A ,  nb_row ,  nb_col )
+/*	
 	multi_vector(Tab_sum , 2 ,  Taille_tab );
 
 	int after=  (clock() *1000 / CLOCKS_PER_SEC);
@@ -187,21 +187,22 @@ double sum_mat( double** m, const int nb_row , const int nb_col)
  
 }
 
-void multi_vector(double * v , const double  a ,  const int taille_v    )
+void multi_mat(double ** m , const double  a ,  const int nb_row , const int nb_col    )
 
 {	
-
-	{
 		# pragma omp parallel
         # pragma omp for 
 	  	//{
- 		for (int i =0 ; i< taille_v  ; i++  ) 
- 			{
- 			
- 			v[i] = v[i] * a;
- 			}
+
+		for (int i = 0; i < nb_row; i++)
+  	{
+  		for (int j = 0; j < nb_col; j++)
+  		{
+   			 m[i][j] = a*  m[i][j];
+  		}
+  	} 	
 	 //	}
-   	}
+   	
 
 }
 
