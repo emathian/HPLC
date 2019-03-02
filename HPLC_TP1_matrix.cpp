@@ -9,6 +9,14 @@
 using namespace std;
 //#include <omp.h>
 
+
+/* POUR L'EXECUTION
+Le premier argument se refere au nombre de thread
+Le second au nombre de colonnes
+Le troisième au nombre de ligne
+Exemple : ./HPLC_TP1_matrix 1 30000 40000
+*/
+
 int main(int argc, char** argv) {
 
 	srand((int) time(0));

@@ -9,6 +9,13 @@
 using namespace std;
 //#include <omp.h>
 
+/* POUR L'EXECUTION
+Le premier argument se refere à la taille des vecteurs
+Le second au nombre de threads
+Exemple : ./HPLC_TP1 2000000 2
+*/
+
+
 int main(int argc, char** argv) {
 
 	int nb_thread = atoi(argv[2]);

@@ -16,6 +16,12 @@ using namespace std;
 
 //#include <omp.h>
 
+/* POUR L'EXECUTION
+Le premier argument se refere à la méthode employée force_forte argv[1]=0 ou force_faible argv[1]=1
+Le second au nombre de runs
+Exemple : HPLC_TP1_matrix_for_exe 0 10
+*/
+
 int main(int argc, char** argv) {
 	srand((int) time(0));
 
