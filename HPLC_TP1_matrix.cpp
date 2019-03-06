@@ -123,6 +123,89 @@ double** generate_matrix( int nb_row, int nb_col)
 }
 
 
+######### Code matrice lettre a tester #########
+
+char** generate_letter_matrix( int nb_row, int nb_col)
+{
+	char** Tab = new char*[nb_row];
+	for (int i = 0; i < nb_row; ++i)
+	{
+		Tab[i] = new char[nb_col];
+		
+	}
+	return Tab;
+}
+
+
+void delete_letter_matrix( char ** Tab,int nb_row, int nb_col)
+{
+	for (int i = 0; i < nb_row; ++i)
+	{
+    	delete [] Tab[i];
+    }
+		delete [] Tab;		
+}
+
+
+void letter_fill(char** Tab , int nb_row, int nb_col, int min)
+{
+	
+	//# pragma omp parallel for
+
+	for (int i =0 ; i< nb_row ; i++)
+	{
+		for (int j =0 ; j< nb_col ; j++)
+		{
+			Tab[i][j] = rand() % ('z' - 'a' + 1) + 'a';
+		}
+	}
+}
+
+
+
+void letter_display(char** Tab, int nb_row, int nb_col )
+{
+  for (int i = 0; i < nb_row; i++)
+  {
+  	printf("[");
+  	for(int j = 0; j < nb_col; j++)
+  	{
+    	printf("%s", Tab[i][j]);
+    	/* We add a comma, except for the last element */
+    	if (j < nb_row-1) 
+    	{
+      		printf(", ");
+    	}
+  	}
+    printf("]\n");
+   } 
+   printf("\n");
+   printf("\n");
+}
+
+
+void nb_letters(char** Tab, int nb_row, int nb_col)
+{
+	//Creer ici un tableau resultat qui contienne sur la premiere ligne l'alphabet et sur la deuxieme des 0 
+	for (int i =0 ; i< nb_row ; i++)
+	{
+		for (int j =0 ; j< nb_col ; j++)
+		{
+			for(int k=0,k<26,++k) //permet de parcourir les colonnes du tableau resultat
+			{
+				if(Tab[i][j]==char(k))
+				{
+					result[1][k]+=1;
+				}
+			}
+		}
+	}
+	// faire un display du tableau resultat cree au debut 
+}
+
+################################################
+
+
 void multi_mat(double ** m , const double  a ,  const int nb_row , const int nb_col    )
 {	
 	# pragma omp parallel
