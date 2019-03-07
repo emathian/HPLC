@@ -9,6 +9,7 @@ void sum_two_mat(double ** m3 ,  double ** m1 ,  double ** m2 , const int nb_row
 
 
 
+std::map<char,int> alpha_map (void);
 char** generate_letter_matrix( int nb_row, int nb_col);
 void delete_letter_matrix( char ** Tab,int nb_row, int nb_col);
 void letter_fill(char** Tab , int nb_row, int nb_col);
