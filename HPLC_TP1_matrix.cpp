@@ -56,9 +56,11 @@ int main(int argc, char** argv) {
 	multi_mat( Tab1 , A ,  nb_row ,  nb_col );
 	display(Tab1, nb_row, nb_col);
 
+
 	delete_matrix(Tab1 , nb_row, nb_col);
 	delete_matrix(Tab2 , nb_row, nb_col);
 	delete_matrix(Tab_sum , nb_row, nb_col);
+	
 	
 
 	return 0;
@@ -123,7 +125,6 @@ double** generate_matrix( int nb_row, int nb_col)
 }
 
 
-######### Code matrice lettre a tester #########
 
 char** generate_letter_matrix( int nb_row, int nb_col)
 {
@@ -203,7 +204,6 @@ void nb_letters(char** Tab, int nb_row, int nb_col)
 	// faire un display du tableau resultat cree au debut 
 }
 
-################################################
 
 
 void multi_mat(double ** m , const double  a ,  const int nb_row , const int nb_col    )
