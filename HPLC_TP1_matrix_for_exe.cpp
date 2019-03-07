@@ -11,10 +11,9 @@
 #include <fstream> //
 
 using namespace std;
-//#include <omp.h>
+#include <omp.h>
 #define SIZE 256// Max size of file_name
 
-//#include <omp.h>
 
 /* POUR L'EXECUTION
 Le premier argument se refere à la méthode employée force_forte argv[1]=0 ou force_faible argv[1]=1
@@ -51,7 +50,7 @@ int main(int argc, char** argv) {
 		int nb_row =V_nb_rows[j] ;
 		int nb_col =V_nb_cols[j] ;
 		int nb_thread = V_nb_thread[i];
-		//omp_set_num_threads(nb_thread); 
+		omp_set_num_threads(nb_thread); 
 		printf("%d \n", nb_row);
 		double A = 2;
 		main_func( nb_thread, nb_row, nb_col, file_name, A);
@@ -67,10 +66,10 @@ int main(int argc, char** argv) {
 		
 		map <int, vector<int>  > cond_force_faible;
 
-		cond_force_faible [1]=vector<int>(10000000,10000000);
-  		cond_force_faible [2]=vector<int>(20000000,20000000);
-  		cond_force_faible [3]=vector<int>(30000000,30000000);
- 		cond_force_faible [4]=vector<int>(40000000,40000000);
+		cond_force_faible [1]=vector<int>(1000,1000);//(10000000,10000000);
+  	cond_force_faible [2]=vector<int>(2000,2000);//(20000000,20000000)
+  	cond_force_faible [3]=vector<int>(3000,3000);//(30000000,30000000)
+ 		cond_force_faible [4]=vector<int>(4000,4000);//(40000000,40000000)
 
 
 		for (int z=0; z<nb_runs ; z++){ // nb runs
@@ -78,8 +77,9 @@ int main(int argc, char** argv) {
 			int nb_thread = it->first;	
 			vector<int>  values = it->second;
 			int nb_row = values[0] ;
+		//	printf("%d", nb_row);
 			int nb_col = values[1];
-			//omp_set_num_threads(nb_thread); 
+			omp_set_num_threads(nb_thread); 
 			double A = 2;
 			main_func( nb_thread, nb_row, nb_col, file_name, A);
 		} // end it map
@@ -184,7 +184,7 @@ void main_func(const int nb_thread, const int  nb_row, const int  nb_col, const 
 	myfile <<  nb_thread <<"\t"<< nb_row << "\t" << nb_col <<"\t"  << diff1 <<"\t" << diff2 <<"\t" << diff3 <<   "\n";
   	myfile.close();
 
-  	delete_matrix(Tab1 , nb_row, nb_col);
+  delete_matrix(Tab1 , nb_row, nb_col);
 	delete_matrix(Tab2 , nb_row, nb_col);
 	delete_matrix(Tab_sum , nb_row, nb_col);
 
