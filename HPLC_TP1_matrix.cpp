@@ -5,6 +5,7 @@
 # include <time.h>
 #include <iostream>
 #include <fstream>
+#include <map>
 
 using namespace std;
 //#include <omp.h>
@@ -39,27 +40,35 @@ int main(int argc, char** argv) {
 	fill (Tab1, nb_row, nb_col, min , max);
 	fill (Tab2, nb_row, nb_col, min , max);
 
-	display(Tab1, nb_row, nb_col);
-	display(Tab2, nb_row, nb_col);
+	//display(Tab1, nb_row, nb_col);
+	//display(Tab2, nb_row, nb_col);
 	
 
 	int before = (clock() *1000 / CLOCKS_PER_SEC);
 
 
 	sum_two_mat(Tab_sum, Tab1 , Tab2 , nb_row ,  nb_col , nb_row , nb_col);
-	display(Tab_sum, nb_row, nb_col);
+	//display(Tab_sum, nb_row, nb_col);
 
 	double s= sum_mat( Tab1, nb_row ,  nb_col);
-	printf("%f\n", s);
+	//printf("%f\n", s);
 
 	double A = 3;
 	multi_mat( Tab1 , A ,  nb_row ,  nb_col );
-	display(Tab1, nb_row, nb_col);
+	//display(Tab1, nb_row, nb_col);
 
 	delete_matrix(Tab1 , nb_row, nb_col);
 	delete_matrix(Tab2 , nb_row, nb_col);
 	delete_matrix(Tab_sum , nb_row, nb_col);
 	
+	// CODE LOUISE
+
+	char** tab_l1 = generate_letter_matrix(nb_row, nb_col);
+	letter_fill(tab_l1 ,  nb_row,  nb_col);
+	letter_display(tab_l1 ,  nb_row,  nb_col);
+	map <char,int> alpha_test ;
+	//alpha_test = alpha_map();
+	delete_letter_matrix(tab_l1 , nb_row, nb_col);
 
 	return 0;
 }
@@ -123,7 +132,7 @@ double** generate_matrix( int nb_row, int nb_col)
 }
 
 
-######### Code matrice lettre a tester #########
+//######### Code matrice lettre a tester #########
 
 char** generate_letter_matrix( int nb_row, int nb_col)
 {
@@ -147,7 +156,7 @@ void delete_letter_matrix( char ** Tab,int nb_row, int nb_col)
 }
 
 
-void letter_fill(char** Tab , int nb_row, int nb_col, int min)
+void letter_fill(char** Tab , int nb_row, int nb_col)
 {
 	
 	//# pragma omp parallel for
@@ -157,6 +166,8 @@ void letter_fill(char** Tab , int nb_row, int nb_col, int min)
 		for (int j =0 ; j< nb_col ; j++)
 		{
 			Tab[i][j] = rand() % ('z' - 'a' + 1) + 'a';
+						
+	
 		}
 	}
 }
@@ -170,7 +181,7 @@ void letter_display(char** Tab, int nb_row, int nb_col )
   	printf("[");
   	for(int j = 0; j < nb_col; j++)
   	{
-    	printf("%s", Tab[i][j]);
+    	printf("%c", Tab[i][j]);
     	/* We add a comma, except for the last element */
     	if (j < nb_row-1) 
     	{
@@ -183,10 +194,22 @@ void letter_display(char** Tab, int nb_row, int nb_col )
    printf("\n");
 }
 
+void map<char,int> alpha_map (map<>)
+{
+	map <char, int > Alpha;
+	for (int i =161; i<187; i++)
+	{
+		Alpha[char(i)].insert(0);
+		printf("char i %c", char(i))
+	}
+	return Alpha;
+}
 
+/*
 void nb_letters(char** Tab, int nb_row, int nb_col)
 {
 	//Creer ici un tableau resultat qui contienne sur la premiere ligne l'alphabet et sur la deuxieme des 0 
+	
 	for (int i =0 ; i< nb_row ; i++)
 	{
 		for (int j =0 ; j< nb_col ; j++)
@@ -195,6 +218,7 @@ void nb_letters(char** Tab, int nb_row, int nb_col)
 			{
 				if(Tab[i][j]==char(k))
 				{
+					
 					result[1][k]+=1;
 				}
 			}
@@ -202,8 +226,8 @@ void nb_letters(char** Tab, int nb_row, int nb_col)
 	}
 	// faire un display du tableau resultat cree au debut 
 }
-
-################################################
+*/
+//################################################
 
 
 void multi_mat(double ** m , const double  a ,  const int nb_row , const int nb_col    )
