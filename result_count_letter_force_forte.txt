@@ -1,4 +1,5 @@
-nb_thread 	 nb_rows	 nb_cols 	temps_comptage1	1000	1000	160
+nb_thread 	 nb_rows	 nb_cols 	temps_comptage
+1	1000	1000	160
 1	2000	2000	639
 1	3000	3000	1439
 1	5000	5000	3988

@@ -4,110 +4,123 @@ library(ggplot2)
 #               Résultats vecteurs
 ########################################################
 
-vect=read.table("results_force_faible_vecteurs.txt",head=TRUE)
+vect=read.table("result_vector_force_forte.txt",head=TRUE)
 vect
 
 # SOMME DE DEUX VECTEURS
-thread=as.factor(data$nb_thread)
-p1<- ggplot(vect, aes(x=nb_thread, group=nb_thread, y=diff1_somme_deux_vect,fill=thread)) + 
-  geom_boxplot() +
+taille=as.factor(vect$Taille_tab)
+p1<- ggplot(vect, aes(x=nb_thread, y=diff1_somme_deux_vect,color=taille)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
   ggtitle("Somme de deux vecteurs")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
-        axis.text.x=element_text(size = 10))+ 
-  scale_fill_brewer(palette="Blues")
-
+        axis.text.x=element_text(size = 10))
 p1
 
 
 # SOMME DES ELEMENTS D'UN VECTEUR
-thread=as.factor(data$nb_thread)
-p2<- ggplot(vect, aes(x=nb_thread, group=nb_thread, y=diff2_somme_vect,fill=thread)) + 
-  geom_boxplot() +
+
+p2<- ggplot(vect, aes(x=nb_thread, y=diff2_somme_vect,color=taille)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
   ggtitle("Somme des éléments d'un vecteur")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
-        axis.text.x=element_text(size = 10))+ 
-  scale_fill_brewer(palette="Blues")
-
+        axis.text.x=element_text(size = 10))
 p2
 
 
 # MULTIPLICATION DE DEUX VECTEURS
-thread=as.factor(data$nb_thread)
-p3<- ggplot(vect, aes(x=nb_thread, group=nb_thread, y=diff3_multi_vect,fill=thread)) + 
-  geom_boxplot() +
+
+p3<- ggplot(vect, aes(x=nb_thread, y=diff3_multi_vect,color=taille)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
   ggtitle("Multiplication de deux vecteurs")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
-        axis.text.x=element_text(size = 10))+ 
-  scale_fill_brewer(palette="Blues")
-
+        axis.text.x=element_text(size = 10))
 p3
+
 
 ########################################################
 #               Résultats matrices
 ########################################################
 
-data=read.table("resultat_force_faible_10.txt",head=TRUE)
+data=read.table("resultats_force_forte_matrix.txt",head=TRUE)
 data
 
 
 # SOMME DE DEUX MATRICES
-thread=as.factor(data$nb_thread)
-g1<- ggplot(data, aes(x=nb_thread, group=nb_thread, y=diff1_somme_deux_mat,fill=thread)) + 
-  geom_boxplot() +
+dimentions=as.factor(data$nb_rows)
+g1<- ggplot(data, aes(x=nb_thread, y=diff1_somme_deux_vect,color=dimentions)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
   ggtitle("Somme de deux matrices")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
-        axis.text.x=element_text(size = 10))+ 
-  scale_fill_brewer(palette="Blues")
-
+        axis.text.x=element_text(size = 10))
 g1
 
 
+
 # SOMME DES ELEMENTS D'UNE MATRICE
-thread=as.factor(data$nb_thread)
-g2<- ggplot(data, aes(x=nb_thread, group=nb_thread, y=diff2_somme_mat,fill=thread)) + 
-  geom_boxplot() +
+g2<- ggplot(data, aes(x=nb_thread, y=diff2_somme_vect,color=dimentions)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
   ggtitle("Somme des éléments d'une matrice")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
-        axis.text.x=element_text(size = 10))+ 
-  scale_fill_brewer(palette="Blues")
-
+        axis.text.x=element_text(size = 10))
 g2
 
 
 # MULTIPLICATION DE DEUX MATRICES
-thread=as.factor(data$nb_thread)
-g3<- ggplot(data, aes(x=nb_thread, group=nb_thread, y=diff3_multi_mat,fill=thread)) + 
-  geom_boxplot() +
+
+g3<- ggplot(data, aes(x=nb_thread, y=diff3_multi_vect,color=dimentions)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
   ggtitle("Multiplication de deux matrices")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
-        axis.text.x=element_text(size = 10))+ 
-  scale_fill_brewer(palette="Blues")
-
+        axis.text.x=element_text(size = 10))
 g3
 
 
+########################################################
+#               Résultats matrices lettre
+########################################################
 
+letter=read.table("result_count_letter_force_forte.txt",head=TRUE)
+letter
+
+dimentions=as.factor(letter$nb_rows)
+l1<- ggplot(letter, aes(x=nb_thread, y=temps_comptage,color=dimentions)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
+  scale_y_continuous(name = "temps d'execution") +
+  scale_x_continuous(name = "nombre de threads") +
+  ggtitle("Dénombrement lettres force forte")+
+  theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
+        text = element_text(size = 12, family = "Tahoma"),
+        axis.title = element_text(face="bold"),
+        axis.text.x=element_text(size = 10))
+l1

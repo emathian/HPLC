@@ -1,4 +1,4 @@
-nb_thread 	 Taille_tab	diff1 somme deux vect	diff2 somme vect	diff3 multi vect
+nb_thread 	 Taille_tab	diff1_somme_deux_vect	diff2_somme_vect	diff3_multi_vect
 1	1000000	4	5	2
 1	5000000	16	23	11
 1	10000000	31	46	22
