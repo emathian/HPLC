@@ -67,7 +67,9 @@ int main(int argc, char** argv) {
 	letter_fill(tab_l1 ,  nb_row,  nb_col);
 	letter_display(tab_l1 ,  nb_row,  nb_col);
 	map <char,int> alpha_test ;
-	//alpha_test = alpha_map();
+	alpha_map(alpha_test );
+	nb_letters(tab_l1, nb_row, nb_col , alpha_test);
+	display_map(alpha_test);
 	delete_letter_matrix(tab_l1 , nb_row, nb_col);
 
 	return 0;
@@ -165,7 +167,7 @@ void letter_fill(char** Tab , int nb_row, int nb_col)
 	{
 		for (int j =0 ; j< nb_col ; j++)
 		{
-			Tab[i][j] = rand() % ('z' - 'a' + 1) + 'a';
+			Tab[i][j] = rand() % ('Z' - 'A' + 1) + 'A';
 						
 	
 		}
@@ -194,39 +196,47 @@ void letter_display(char** Tab, int nb_row, int nb_col )
    printf("\n");
 }
 
-void map<char,int> alpha_map (map<>)
+void  alpha_map(std::map<char,int> &Alpha)
 {
-	map <char, int > Alpha;
-	for (int i =161; i<187; i++)
+	for (int i =65; i<91; i++)
 	{
-		Alpha[char(i)].insert(0);
-		printf("char i %c", char(i))
+		Alpha[char(i)]=0;
+	
+		
 	}
-	return Alpha;
+
 }
 
-/*
-void nb_letters(char** Tab, int nb_row, int nb_col)
+
+void nb_letters(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 {
-	//Creer ici un tableau resultat qui contienne sur la premiere ligne l'alphabet et sur la deuxieme des 0 
 	
 	for (int i =0 ; i< nb_row ; i++)
 	{
 		for (int j =0 ; j< nb_col ; j++)
 		{
-			for(int k=0,k<26,++k) //permet de parcourir les colonnes du tableau resultat
-			{
-				if(Tab[i][j]==char(k))
-				{
-					
-					result[1][k]+=1;
-				}
-			}
+			//permet de parcourir les colonnes du tableau resultat
+			
+			Alpha[Tab[i][j]] +=1;
+			
 		}
 	}
-	// faire un display du tableau resultat cree au debut 
+	
 }
-*/
+
+
+void display_map (std::map<char,int> &Alpha)
+{
+	
+	for (map<char, int >::iterator it=Alpha.begin() ; it!=Alpha.end(); ++it )
+	{
+		cout << it->first << '\t' << it->second  << endl;
+	}
+			
+	
+	
+}
+
 //################################################
 
 
