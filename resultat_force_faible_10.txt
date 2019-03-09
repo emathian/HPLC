@@ -1,4 +1,4 @@
-nb_thread 	 nb_rows	 nb_cols 	diff1 somme deux vect	diff2 somme vect	diff3 multi vect
+nb_thread 	 nb_rows	 nb_cols 	diff1_somme_deux_mat	diff2_somme_mat	diff3_multi_mat
 1	1000	1000	4	5	2
 2	2000	2000	17	17	9
 3	3000	3000	43	46	24
