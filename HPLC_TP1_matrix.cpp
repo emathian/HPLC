@@ -2,7 +2,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include "HPLC_TP1_matrix.h"
 #include <ctime> // Pour initialier la graine de rand
-# include <time.h>
+#include <time.h>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -18,6 +18,18 @@ Le troisième au nombre de ligne
 Exemple : ./HPLC_TP1_matrix 1 30000 40000
 */
 
+/*
+void alpha_map(std::map<char,int>& Alpha)
+{
+
+	for (int i =161; i<187; i++)
+	{
+		//Alpha[char(i)] =0;
+		printf("char i %d", i);
+	}
+
+}
+*/
 int main(int argc, char** argv) {
 
 	srand((int) time(0));
@@ -67,8 +79,8 @@ int main(int argc, char** argv) {
 	char** tab_l1 = generate_letter_matrix(nb_row, nb_col);
 	letter_fill(tab_l1 ,  nb_row,  nb_col);
 	letter_display(tab_l1 ,  nb_row,  nb_col);
-	map <char,int> alpha_test ;
-	//alpha_test = alpha_map();
+	//map<char,int> alpha_test ;
+	
 	delete_letter_matrix(tab_l1 , nb_row, nb_col);
 
 	return 0;
@@ -197,16 +209,7 @@ void letter_display(char** Tab, int nb_row, int nb_col )
    printf("\n");
 }
 
-void map<char,int> alpha_map (map<>)
-{
-	map <char, int > Alpha;
-	for (int i =161; i<187; i++)
-	{
-		Alpha[char(i)].insert(0);
-		printf("char i %c", char(i))
-	}
-	return Alpha;
-}
+
 
 /*
 void nb_letters(char** Tab, int nb_row, int nb_col)
