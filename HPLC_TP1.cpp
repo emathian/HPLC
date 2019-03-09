@@ -20,8 +20,13 @@ using namespace std;
 /* ##################################################### */
 
 
+/*---------------------CONSIGNES DE COMPLATION --------------------------------------------
+Pour compiler ce fichier merci d'indiquer l'option -fopenmp
+Exemple : g++ -fopenmp HPLC_TP1.cpp -o HPLC_TP1
+--------------------------------------------------------------------------------------*/
+
 /*---------------------CONSIGNES D'EXECUTION ----- --------------------------------------
-Pour l'éxution du progrmma merci d'indiquer en premier argument le nombre de core utilisé,
+Pour l'éxution du programme merci d'indiquer en premier argument le nombre de core utilisé,
 et en second argument le nombre de runs 
 Exemple : ./HPLC_TP1 2 2000000
 --------------------------------------------------------------------------------------*/
@@ -44,7 +49,7 @@ int main(int argc, char** argv) {
 	double* Tab2;
 	double* Tab_sum;
 
-	// Borne de générteur de nombre aléatoire 
+	// Bornes de générteur de nombres aléatoires
 	double min = 0; 
 	double max = 10; //RAND_MAX;
 
@@ -140,15 +145,6 @@ void fill(double* Tab , const int Taille_tab, const int min, const int max )
 }
 
 
-/*--------------------- Fonction : Random  -------------------------------------------------
-	Cette fonction retourne un double généré alétoirement entre les bornes définies par min
-	er max. La fonction Random est appélé par la procédure fill.
-------------------------------------------------------------------------------------------*/
-double Random (const double min , const double max) 
-{	
-	double f = (double)rand () / RAND_MAX;
-	return min + f * (max-min+1); 
-} 
 
 
 /*--------------------- Procédure : multi_vector (Multiplication du vecteur par un double) --
@@ -156,7 +152,6 @@ double Random (const double min , const double max)
 	Cette opération est parallélisée.
 --------------------------------------------------------------------------------------------*/
 void multi_vector(double * v , const double  a ,  const int taille_v )
-
 {	
 	/* ################### PARALLELISATION ################# */
 	# pragma omp parallel for
@@ -166,6 +161,17 @@ void multi_vector(double * v , const double  a ,  const int taille_v )
  			v[i] = v[i] * a;
  		}   	
 }
+
+
+/*--------------------- Fonction : Random  -------------------------------------------------
+	Cette fonction retourne un double généré alétoirement entre les bornes définies par min
+	er max. La fonction Random est appélé par la procédure fill.
+------------------------------------------------------------------------------------------*/
+double Random (const double min , const double max) 
+{	
+	double f = (double)rand () / RAND_MAX;
+	return min + f * (max-min+1); 
+} 
 
 
 
@@ -178,7 +184,7 @@ void sum_two_vector(double * v3 , const double * v1 , const double * v2 , const 
 	// Condition sur la taille des vecteurs v1 et v2 
 	if (taille_v1 != taille_v2 )
 	{
-		printf("Les vecteurs ont des longueurs diffférentes" );
+		printf("Les vecteurs ont des longueurs diffférentes." );
 	}
 
 	else
