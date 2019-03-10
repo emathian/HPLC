@@ -96,7 +96,7 @@ void alpha_map(std::map<char,int> &Alpha);
 	Précondition : L'espace mémoire de la matrice de lettres Tab doit avoir préalablement allouée.
 	Post-condition : La matrice Tab est suprimée.
 ------------------------------------------------------------------------------------------*/
-void delete_letter_matrix( char ** Tab,int nb_row, int nb_col);
+void delete_letter_matrix( char ** Tab, const int nb_row, const int nb_col);
 
 
 /*--------------------- Procédure : display_map-----------------------------------------------
@@ -109,7 +109,7 @@ void display_map (std::map<char,int> &Alpha);
 	Cette fonction permet d'allouer l'espace mémoire nécessaire pour une matrice de char de 
 	taille nb_rox x nb_col.
 --------------------------------------------------------------------------------------------*/
-char** generate_letter_matrix( int nb_row, int nb_col);
+char** generate_letter_matrix(const int nb_row, const int nb_col);
 
 
 /*--------------------- Procédure : letter_fill ---------------------------------------------

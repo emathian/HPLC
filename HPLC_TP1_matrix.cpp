@@ -281,46 +281,92 @@ void sum_two_mat(double ** m3 ,  double ** m1 ,  double ** m2 , const int nb_row
 
 /*--------- FONCTIONS ET PROCEDURES SUR LES MATRICES DE LETTRES  ------------------------------*/
 
-char** generate_letter_matrix( int nb_row, int nb_col)
+/*--------------------- Procédure : multi_mat ---------------------------------------------------
+	Cette procédure permet d'initiliser le dictionnaire des résultats. Le compteur de chaque 
+	lettre est mis à zéro.
+--------------------------------------------------------------------------------------------*/
+void  alpha_map(std::map<char,int> &Alpha)
 {
+	for (int i =65; i<91; i++)
+	{
+		Alpha[char(i)]=0;	
+	}
+}
+
+
+/*--------------------- Procédure : delete_letter_matrix -----------------------------------
+	Cette procédure permet de libérer la mémoire allouée pour construire une matrice de char 
+	de taille nb_row x nb_col.
+	Cette procédure est parallélisée.
+------------------------------------------------------------------------------------------*/
+void delete_letter_matrix( char ** Tab, const int nb_row, const int nb_col)
+{
+	/* ################### PARALLELISATION ################# */
+  	# pragma omp parallel for 
+  	/* ##################################################### */
+	for (int i = 0; i < nb_row; ++i)
+	{
+    	delete [] Tab[i];
+    }
+	delete [] Tab;		
+}
+
+
+/*--------------------- Procédure : display_map-----------------------------------------------
+	Cette procédure permet d'afficher le dictionnaires contennant le résultats du dénombrement.
+------------------------------------------------------------------------------------------*/
+void display_map (std::map<char,int> &Alpha)
+{
+	for (map<char, int >::iterator it=Alpha.begin() ; it!=Alpha.end(); ++it )
+	{
+		cout << it->first << '\t' << it->second  << endl; // Affichage des résultats
+	}	
+}
+
+
+
+/*--------------------- Fonction : generate_letter_matrix ----------------------------------
+	Cette fonction permet d'allouer l'espace mémoire nécessaire pour une matrice de char de 
+	taille nb_rox x nb_col.
+	Cette fonction est parallélisée.
+--------------------------------------------------------------------------------------------*/
+char** generate_letter_matrix(const int nb_row, const int nb_col)
+{
+	/* ################### PARALLELISATION ################# */
+  	# pragma omp parallel for 
+  	/* ##################################################### */
 	char** Tab = new char*[nb_row];
 	for (int i = 0; i < nb_row; ++i)
 	{
 		Tab[i] = new char[nb_col];
-		
 	}
 	return Tab;
 }
 
 
-void delete_letter_matrix( char ** Tab,int nb_row, int nb_col)
-{
-	for (int i = 0; i < nb_row; ++i)
-	{
-    	delete [] Tab[i];
-    }
-		delete [] Tab;		
-}
-
-
+/*--------------------- Procédure : letter_fill ---------------------------------------------
+	Cette procédure permet de remplir une matrice de taille nb_row x nb_col par des lettres 
+	capitales générées aléatoirement.
+	Cette procédure est parallélisée.
+--------------------------------------------------------------------------------------------*/
 void letter_fill(char** Tab , int nb_row, int nb_col)
 {
-	
-	//# pragma omp parallel for
-
+	/* ################### PARALLELISATION ################# */
+  	# pragma omp parallel for 
+  	/* ##################################################### */
 	for (int i =0 ; i< nb_row ; i++)
 	{
 		for (int j =0 ; j< nb_col ; j++)
 		{
 			Tab[i][j] = rand() % ('Z' - 'A' + 1) + 'A';
-						
-	
 		}
 	}
 }
 
 
-
+/*--------------------- Procédure : letter_display ---------------------------------------------
+	Cette procédure permet d'afficher les éléments d'une matrice de char.
+-----------------------------------------------------------------------------------------------*/
 void letter_display(char** Tab, int nb_row, int nb_col )
 {
   for (int i = 0; i < nb_row; i++)
@@ -329,7 +375,6 @@ void letter_display(char** Tab, int nb_row, int nb_col )
   	for(int j = 0; j < nb_col; j++)
   	{
     	printf("%c", Tab[i][j]);
-    	/* We add a comma, except for the last element */
     	if (j < nb_row-1) 
     	{
       		printf(", ");
@@ -341,45 +386,22 @@ void letter_display(char** Tab, int nb_row, int nb_col )
    printf("\n");
 }
 
-void  alpha_map(std::map<char,int> &Alpha)
-{
-	for (int i =65; i<91; i++)
-	{
-		Alpha[char(i)]=0;
-	
-		
-	}
 
-}
-
-
+/*--------------------- Procédure : nb_letters --------------------------------------------------
+	Cette procédure permet de dénombrer les lettres contenues dans une matrice de char.
+	PARALLELISATION À REALISER
+-----------------------------------------------------------------------------------------------*/
 void nb_letters(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 {
-	
-	for (int i =0 ; i< nb_row ; i++)
+	for (int i =0 ; i< nb_row ; i++) //permet de parcourir les lignes de la matrices de lettres
 	{
-		for (int j =0 ; j< nb_col ; j++)
+		for (int j =0 ; j< nb_col ; j++) //permet de parcourir les colonnes de la matrices de lettres
 		{
-			//permet de parcourir les colonnes du tableau resultat
-			
-			Alpha[Tab[i][j]] +=1;
-			
+			Alpha[Tab[i][j]] +=1; // Incrémentation du dictionnaire des résultats		
 		}
 	}
-	
 }
 
 
-void display_map (std::map<char,int> &Alpha)
-{
-	
-	for (map<char, int >::iterator it=Alpha.begin() ; it!=Alpha.end(); ++it )
-	{
-		cout << it->first << '\t' << it->second  << endl;
-	}
-			
-	
-	
-}
 
-//################################################
+
