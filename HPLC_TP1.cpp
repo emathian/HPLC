@@ -8,7 +8,7 @@ La mise en parréllélisation de ces dernières a également été implémentée
 #include <stdio.h>
 #include <stdlib.h>     /* srand, rand */
 #include "HPLC_TP1.h"
-#include <ctime> // Pour initialier la graine de rand
+#include <ctime> 
 # include <time.h>
 #include <iostream>
 #include <fstream>
@@ -26,9 +26,9 @@ Exemple : g++ -fopenmp HPLC_TP1.cpp -o HPLC_TP1
 --------------------------------------------------------------------------------------*/
 
 /*---------------------CONSIGNES D'EXECUTION ----- --------------------------------------
-Pour l'éxution du programme merci d'indiquer en premier argument le nombre de core utilisé,
-et en second argument le nombre de runs 
-Exemple : ./HPLC_TP1 2 2000000
+Pour l'éxution du programme merci d'indiquer en premier argument la taille des vecteurs 
+et en second argument le nombre de cores.
+Exemple : ./HPLC_TP1 2000000 2
 --------------------------------------------------------------------------------------*/
 
 
