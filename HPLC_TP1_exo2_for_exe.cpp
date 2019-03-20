@@ -173,13 +173,36 @@ void nb_letters(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 	{
 		for (int j =0 ; j< nb_col ; j++)
 		{
-			//permet de parcourir les colonnes du tableau resultat
-			
-			Alpha[Tab[i][j]] +=1;
-			
+			Alpha[Tab[i][j]] +=1;			
 		}
 	}
 	
+} 
+void nb_letters_v2(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
+{
+	
+
+	# pragma omp parallel for
+
+	for (int i =0 ; i< nb_row ; i++)
+	{
+		for (int j =0 ; j< nb_col ; j++)
+		{
+			Alpha[Tab[i][j]] +=1;			
+		}
+	}
+	
+}
+
+int** generate_matrix( int nb_row, int nb_col)
+{
+	int** Tab = new int*[nb_row];
+	for (int i = 0; i < nb_row; ++i)
+	{
+		Tab[i] = new int[nb_col];
+		
+	}
+	return Tab;
 }
 
 
