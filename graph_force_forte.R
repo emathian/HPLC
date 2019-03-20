@@ -1,7 +1,7 @@
 library(ggplot2)
 
 ########################################################
-#               Résultats vecteurs
+#               R??sultats vecteurs
 ########################################################
 
 vect=read.table("result_vector_force_forte.txt",head=TRUE)
@@ -29,7 +29,7 @@ p2<- ggplot(vect, aes(x=nb_thread, y=diff2_somme_vect,color=taille)) +
   geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
-  ggtitle("Somme des éléments d'un vecteur")+
+  ggtitle("Somme des elements d'un vecteur")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
@@ -53,7 +53,7 @@ p3
 
 
 ########################################################
-#               Résultats matrices
+#               R??sultats matrices
 ########################################################
 
 data=read.table("resultats_force_forte_matrix.txt",head=TRUE)
@@ -82,7 +82,7 @@ g2<- ggplot(data, aes(x=nb_thread, y=diff2_somme_vect,color=dimentions)) +
   geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
-  ggtitle("Somme des éléments d'une matrice")+
+  ggtitle("Somme des ??l??ments d'une matrice")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
@@ -106,7 +106,7 @@ g3
 
 
 ########################################################
-#               Résultats matrices lettre
+#               R??sultats matrices lettre
 ########################################################
 
 letter=read.table("result_count_letter_force_forte.txt",head=TRUE)
@@ -118,7 +118,7 @@ l1<- ggplot(letter, aes(x=nb_thread, y=temps_comptage,color=dimentions)) +
   geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
-  ggtitle("Dénombrement lettres force forte")+
+  ggtitle("D??nombrement lettres force forte")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),

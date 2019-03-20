@@ -45,14 +45,16 @@ void fill(double* Tab , int Taille_tab, int min, int max );
 	éléments d'un vecteur | Durée : Multiplication d'un vecteur par une constante
 
 	La procédure réalise les étapes suivantes :
-		- 1) Création de trois vecteurs  de double et allocation mémoire, 
-		- 2) Remplissage de deux vecteur (cf: procédure fill et random),
-		- 3) Calcul de la somme de deux vecteurs (cf : sum_two_vector ), et mémorisation de la durée,
-		- 4) Calcul de la somme des éléments d'un vecteur (cf : sum_vector ), et mémorisation de la durée,
-		- 5) Multiplication d'un vecteur par un double (cf : multi_vector) et mémorisation de la durée.
+		- 1) Création de trois matrices de double et allocation mémoire, 
+		- 2) Remplissage de trois matrices (cf: procédure fill et random),
+		- 3) Calcul de la somme de deux matrices (cf : sum_two_mat ), les résultats sont stockés dans
+		la troisième matrice. La durée du calcul est mémorisé,
+		- 4) Calcul de la somme des éléments d'une matrice (cf : sum_mat), et mémorisation de la durée,
+		- 5) Multiplication des éléments d'une matrice par un double (cf : multi_vector) 
+		et mémorisation de la durée.
 	
 	Préconditions : - Le fichier de résultats doit être crée.
-				   - Les options d'exécution (nombre de core et taille des vecteurs) doivent être 
+				   - Les options d'exécution (nombre de coeurs et taille des matrices) doivent être 
 				     passéees en arguement. 
 
 	Postcondition : - À chaque appel de la procédure une ligne de résultat est écrite.
