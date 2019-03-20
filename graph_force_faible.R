@@ -1,7 +1,7 @@
 library(ggplot2)
 
 ########################################################
-#               Résultats vecteurs
+#               Resultats vecteurs
 ########################################################
 
 vect=read.table("results_force_faible_vecteurs.txt",head=TRUE)
@@ -55,7 +55,7 @@ p3<- ggplot(vect, aes(x=nb_thread, group=nb_thread, y=diff3_multi_vect,fill=thre
 p3
 
 ########################################################
-#               Résultats matrices
+#               Resultats matrices
 ########################################################
 
 data=read.table("resultat_force_faible_10.txt",head=TRUE)

@@ -1,7 +1,7 @@
 library(ggplot2)
 
 ########################################################
-#               R??sultats vecteurs
+#               Resultats vecteurs
 ########################################################
 
 vect=read.table("result_vector_force_forte.txt",head=TRUE)
@@ -53,7 +53,7 @@ p3
 
 
 ########################################################
-#               R??sultats matrices
+#               Resultats matrices
 ########################################################
 
 data=read.table("resultats_force_forte_matrix.txt",head=TRUE)
@@ -106,7 +106,7 @@ g3
 
 
 ########################################################
-#               R??sultats matrices lettre
+#               Resultats matrices lettre
 ########################################################
 
 letter=read.table("result_count_letter_force_forte.txt",head=TRUE)
