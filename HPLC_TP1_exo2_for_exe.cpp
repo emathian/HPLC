@@ -7,9 +7,9 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <omp.h>
 
 using namespace std;
-#include <omp.h>
 #define SIZE 256// Max size of file_name
 
 /* POUR L'EXECUTION
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 	
 	ofstream myfile;
   	myfile.open ( file_name, fstream::app);
-	myfile <<  "nb_thread \t nb_rows\t nb_cols \ttemps_comptage";	
+	myfile <<  "nb_thread \t nb_rows\t nb_cols \ttemps_comptage \ttemps_comptage_v2 \n";	
 	myfile.close();
 
 	if (force_forte_faible ==0){
@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
 	
 	myfile.close();
 
-	myfile.close();
+
 	return 0;
 }
 
@@ -125,8 +125,6 @@ void letter_fill(char** Tab , int nb_row, int nb_col)
 		for (int j =0 ; j< nb_col ; j++)
 		{
 			Tab[i][j] = rand() % ('Z' - 'A' + 1) + 'A';
-						
-	
 		}
 	}
 }
@@ -153,75 +151,79 @@ void letter_display(char** Tab, int nb_row, int nb_col )
    printf("\n");
 }
 
-void  alpha_map(std::map<char,int> &Alpha)
+
+void init_map(std::map<char,int> &Alpha)
 {
 	for (int i =65; i<91; i++)
 	{
 		Alpha[char(i)]=0;
-	
-		
 	}
-
 }
+
+
 
 
 void nb_letters(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 {
 	# pragma omp parallel for
-
 	for (int i =0 ; i< nb_row ; i++)
 	{
 		for (int j =0 ; j< nb_col ; j++)
 		{
+
 			Alpha[Tab[i][j]] +=1;			
 		}
 	}
 	
 } 
+
+
+
+
+
+// RAJOUT POUR TEST :
+
+void ajout_map(std::map<char,int> &Alpha, std::map<char,int> &Alpha_inter)
+{
+  for (int i =65; i<91; i++)
+	{
+		Alpha[char(i)]+=Alpha_inter[char(i)];
+	}
+}
+
+
 void nb_letters_v2(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 {
-	
-
 	# pragma omp parallel for
-
 	for (int i =0 ; i< nb_row ; i++)
 	{
+		map<char, int> Alpha_inter;
+	  	init_map(Alpha_inter);
+	 	# pragma omp parallel for
 		for (int j =0 ; j< nb_col ; j++)
 		{
-			Alpha[Tab[i][j]] +=1;			
+			//permet de parcourir les colonnes du tableau resultat
+			Alpha_inter[Tab[i][j]] +=1;
 		}
+		ajout_map(Alpha, Alpha_inter);
 	}
-	
 }
-
-int** generate_matrix( int nb_row, int nb_col)
-{
-	int** Tab = new int*[nb_row];
-	for (int i = 0; i < nb_row; ++i)
-	{
-		Tab[i] = new int[nb_col];
-		
-	}
-	return Tab;
-}
+// FIN DU RAJOUT
 
 
 void display_map (std::map<char,int> &Alpha)
 {
-	
 	for (map<char, int >::iterator it=Alpha.begin() ; it!=Alpha.end(); ++it )
 	{
 		cout << it->first << '\t' << it->second  << endl;
 	}
-			
-	
-	
 }
 
 
 
 void main_func(const int nb_thread, const int  nb_row, const int  nb_col, const char* file_name )
 {
+
 	ofstream myfile;
 	myfile.open ( file_name, fstream::app);
 
@@ -230,17 +232,32 @@ void main_func(const int nb_thread, const int  nb_row, const int  nb_col, const 
 	letter_fill(tab_l1 ,  nb_row,  nb_col);
 	//letter_display(tab_l1 ,  nb_row,  nb_col);
 	map <char,int> alpha_test ;
-	alpha_map(alpha_test );
+	init_map(alpha_test );
 
 	int before1 = (clock() *1000 / CLOCKS_PER_SEC);
 	nb_letters(tab_l1, nb_row, nb_col , alpha_test);
 	int after1=  (clock() *1000 / CLOCKS_PER_SEC);
 	int diff1 = after1 - before1;
+	
 
-	myfile <<  nb_thread <<"\t"<< nb_row << "\t" << nb_col <<"\t"  << diff1 <<   "\n";
-  	myfile.close();
+ 	 // RAJOUT POUR TEST :
+ 	 map <char,int> alpha_glob ;
+	init_map(alpha_glob);
+
+	
+	int before2 = (clock() *1000 / CLOCKS_PER_SEC);
+	nb_letters_v2(tab_l1, nb_row, nb_col , alpha_glob );
+	int after2=  (clock() *1000 / CLOCKS_PER_SEC);
+	int diff2 = after2 - before2;
+	// FIN DU RAJOUT
+	
+
+	myfile <<  nb_thread <<"\t"<< nb_row << "\t" << nb_col <<"\t"  << diff1 << "\t"  << diff2 <<  "\n";
+ 	myfile.close();
 
 	delete_letter_matrix(tab_l1 , nb_row, nb_col);
+
+
 }
 
 
