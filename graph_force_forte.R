@@ -44,7 +44,7 @@ p3<- ggplot(vect, aes(x=nb_thread, y=diff3_multi_vect,color=taille)) +
   geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
-  ggtitle("Multiplication de deux vecteurs")+
+  ggtitle("Multiplication d'un vecteur par un double")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
@@ -82,7 +82,7 @@ g2<- ggplot(data, aes(x=nb_thread, y=diff2_somme_vect,color=dimentions)) +
   geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
-  ggtitle("Somme des ??l??ments d'une matrice")+
+  ggtitle("Somme des elements d'une matrice")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
@@ -97,7 +97,7 @@ g3<- ggplot(data, aes(x=nb_thread, y=diff3_multi_vect,color=dimentions)) +
   geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
-  ggtitle("Multiplication de deux matrices")+
+  ggtitle("Multiplication d'une matrices par un double")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
@@ -109,7 +109,7 @@ g3
 #               Resultats matrices lettre
 ########################################################
 
-letter=read.table("result_count_letter_force_forte.txt",head=TRUE)
+letter=read.table("result_v2_force_forte.txt",head=TRUE)
 letter
 
 dimentions=as.factor(letter$nb_rows)
@@ -118,9 +118,21 @@ l1<- ggplot(letter, aes(x=nb_thread, y=temps_comptage,color=dimentions)) +
   geom_point() +
   scale_y_continuous(name = "temps d'execution") +
   scale_x_continuous(name = "nombre de threads") +
-  ggtitle("D??nombrement lettres force forte")+
+  ggtitle("Denombrement de lettres dans une matrice\nSimple parallelisation")+
   theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
         text = element_text(size = 12, family = "Tahoma"),
         axis.title = element_text(face="bold"),
         axis.text.x=element_text(size = 10))
 l1
+
+l2<- ggplot(letter, aes(x=nb_thread, y=temps_comptage_v2,color=dimentions)) + 
+  geom_smooth(method=lm) +
+  geom_point() +
+  scale_y_continuous(name = "temps d'execution") +
+  scale_x_continuous(name = "nombre de threads") +
+  ggtitle("Denombrement de lettres dans une matrice \nDouble parallelisation")+
+  theme(plot.title = element_text(size = 18, family = "Tahoma", face = "bold"),
+        text = element_text(size = 12, family = "Tahoma"),
+        axis.title = element_text(face="bold"),
+        axis.text.x=element_text(size = 10))
+l2
