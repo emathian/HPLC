@@ -42,7 +42,10 @@ int main(int argc, char** argv) {
 	int V_nb_thread[] = {1,2,4};
 	int V_nb_rows[] = {1000, 2000, 3000, 5000, 7000};
 	int V_nb_cols[] = {1000, 2000, 3000,5000, 7000};  
-
+	
+	// Pour tester si la double parallelistaion donne bien le meme resultat
+  //int V_nb_rows[] = {2, 0, 0, 0, 0};
+	//int V_nb_cols[] = {2, 0, 0,0, 0}; 
 
 	for (int z=0; z<nb_runs ; z++){ // nb runs
 	for (int i=0 ; i<3 ; i++){
@@ -198,7 +201,7 @@ void nb_letters_v2(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 	for (int i =0 ; i< nb_row ; i++)
 	{
 		map<char, int> Alpha_inter;
-	  	init_map(Alpha_inter);
+	  init_map(Alpha_inter);
 	 	# pragma omp parallel for
 		for (int j =0 ; j< nb_col ; j++)
 		{
@@ -238,6 +241,7 @@ void main_func(const int nb_thread, const int  nb_row, const int  nb_col, const 
 	nb_letters(tab_l1, nb_row, nb_col , alpha_test);
 	int after1=  (clock() *1000 / CLOCKS_PER_SEC);
 	int diff1 = after1 - before1;
+	//display_map(alpha_test);
 	
 
  	 // RAJOUT POUR TEST :
@@ -249,6 +253,7 @@ void main_func(const int nb_thread, const int  nb_row, const int  nb_col, const 
 	nb_letters_v2(tab_l1, nb_row, nb_col , alpha_glob );
 	int after2=  (clock() *1000 / CLOCKS_PER_SEC);
 	int diff2 = after2 - before2;
+	//display_map(alpha_glob);
 	// FIN DU RAJOUT
 	
 
