@@ -68,12 +68,12 @@ int main(int argc, char** argv) {
 
 		for (int z=0; z<nb_runs ; z++)// Pour le nombre de runs défini par l'utilisateur  
 		{ 
-			for (int i=0 ; i<3 ; i++)// Pour chaque nombre de core défini dans V_nb_thread
+			for (int i=0 ; i<3 ; i++)// Pour chaque nombre de coeurs défini dans V_nb_thread
 			{ 
 				for (int j=0 ; j<5 ; j++) // Pour chaque taille de vecteur de core défini dans V_Taille_tab		
 				{
 					int Taille_tab =V_Taille_tab[j] ; // Taille courante des vecteurs
-					int nb_thread = V_nb_thread[i]; // Nombre de core courant
+					int nb_thread = V_nb_thread[i]; // Nombre de coeurs courant
 					
 					/* ################### PARALLELISATION ################# */
 					omp_set_num_threads(nb_thread); 

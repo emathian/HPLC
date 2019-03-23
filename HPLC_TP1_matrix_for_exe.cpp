@@ -5,12 +5,6 @@ de nombre.
 La mise en parréllélisation de ces dernières a également été implémentée. Ce programme a 
 été réalisé pour évaluer la performance de la parallélisation par passage à l'échelle 
 forte et faible, pour les matrices de NOMBRES.  
-
-Aisi cette entête est quasi équivalente à celle de HPLC_TP1_matrix.h, mais introduit 
-la procédure  main.func contanant les principales directives pour l'évaluation de la performance. 
-
-Dans ce fichier les fonctions et procédures sont triées par ordre alphabétique et succinte-
-ment présentées.
 ---------------------------------------------------------------------------------------*/
 
 /*---------------------IMPORATION DES LIBRAIRIES --------------------------------------*/
@@ -57,7 +51,7 @@ int main(int argc, char** argv) {
 	cin>> file_name;
 	ofstream myfile;
   	myfile.open ( file_name, fstream::app);
-	myfile <<  "nb_thread \t nb_rows\t nb_cols \tdiff1 somme deux vect\tdiff2 somme vect\tdiff3 multi vect\n";	
+	myfile <<  "nb_thread \t nb_rows\t nb_cols \tdiff1_somme_deux_vect\tdiff2_somme_vect\tdiff3_multi_vect\n";	
 	myfile.close();
 
 	// Type de passage à l'échelle et nombre de runs
@@ -67,15 +61,15 @@ int main(int argc, char** argv) {
 	/*-------------- PROGRAMME POUR LE PASSAGE A L'ÉCHELLE FORTE --------------------------*/
 	if (force_forte_faible ==0)
 	{
-		int V_nb_thread[] = {1,2,4};
-		int V_nb_rows[] = {1000,2000,3000, 4000, 5000}; // Vecteur définissant le nombre de core qui seront successivement utilisés
-		int V_nb_cols[] = {1000,2000,3000, 4000, 5000};// Vecteur définissant la taille des vecteurs successivement générés
+		int V_nb_thread[] = {1,2,4};// Vecteur définissant le nombre de coeurs qui seront successivement utilisés
+		int V_nb_rows[] = {1000,2000,3000, 4000, 5000}; // Vecteur définissant le nombre de lignes dans les matrices 
+		int V_nb_cols[] = {1000,2000,3000, 4000, 5000};  // Vecteur définissant le nombre de colonnes dans les matrices 
 
 		for (int z=0; z<nb_runs ; z++)//  Pour le nombre de runs défini par l'utilisateur  
 		{ 
 			for (int i=0 ; i<3 ; i++)// Pour chaque nombre de coeurs défini dans V_nb_thread
 			{ 
-				for (int j=0 ; j<4 ; j++)// Pour chaque taille de matrice de core défini dans V_nb_rows et V_nb_cols		
+				for (int j=0 ; j<4 ; j++)// Pour chaque taille de matrice dans V_nb_rows et V_nb_cols		
 				{ 
 
 				int nb_row =V_nb_rows[j] ; // Nombre de lignes courantes

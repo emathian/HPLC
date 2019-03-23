@@ -30,7 +30,7 @@ Exemple : g++ -fopenmp HPLC_TP1_matrix.cpp -o HPLC_TP1_matrix
 
 /*---------------------CONSIGNES D'EXECUTION ----- --------------------------------------
 Pour l'éxution du programme merci d'indiquer en premier argument le nombre de lignes, en
-second le nombre de colonnes et en troisième argument le nombre de cores.
+second le nombre de colonnes et en troisième argument le nombre de coeurs.
 Exemple : ./HPLC_TP1_matrix 20 20 2000000
 --------------------------------------------------------------------------------------*/
 
@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
 	srand((int) time(0));// Générateur de nombre alétoire
 
 	/*-------------- PARALLELISATION ET OPTIONS D'ÉXÉCUTION --------------------------*/
-	int nb_thread = atoi(argv[3]);  // Définition du nombre de core
+	int nb_thread = atoi(argv[3]);  // Définition du nombre de coeurs
 	omp_set_num_threads(nb_thread); 
 	int nb_row = atoi(argv[1]); // Nombre de lignes
 	int nb_col = atoi(argv[2]); // Nombre de colonnes
