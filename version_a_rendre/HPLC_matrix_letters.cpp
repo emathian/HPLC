@@ -4,13 +4,13 @@ de lettres.
 
 La mise en parréllélisation de ces dernières a également été implémentée. Ce programme a 
 été réalisé pour évaluer la performance de la parallélisation par passage à l'échelle 
-forte et faible, pour les matrices de LETTRES.  
+forte et faible.  
 ---------------------------------------------------------------------------------------*/
 
 /*---------------------IMPORATION DES LIBRAIRIES --------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>     /* srand, rand */
-#include "HPLC_TP1_exo2_for_exe.h"
+#include "HPLC_matrix_letters.h"
 #include <ctime> // Pour initialier la graine de rand
 # include <time.h>
 #include <iostream>
@@ -27,13 +27,13 @@ using namespace std;
 
 /*---------------------CONSIGNES DE COMPLATION ------------------------------------------
 Pour compiler ce fichier merci d'indiquer l'option -fopenmp
-Exemple : g++ -fopenmp HPLC_TP1_exo2_for_exe.cpp -o HPLC_TP1_exo2_for_exe
+Exemple : g++ -fopenmp HPLC_matrix_letters.cpp -o HPLC_matrix_letters
 --------------------------------------------------------------------------------------*/
 
 /*---------------------CONSIGNES D'EXECUTION ----- --------------------------------------
 Pour l'éxution du programme merci d'indiquer en premier argument le type de force, avec 0
 pour la force forte et 1 pour la force faible. Le nombre de runs doit également être spécifié
-Exemple : ./HPLC_TP1_exo2_for_exe 0 10
+Exemple : ./HPLC_matrix_letters 0 10
 --------------------------------------------------------------------------------------*/
 
 /*---------------------PRROGRAMME PRINCIPAL-------------------------------------------*/
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 
 /*--------------------- Procédure : delete_letter_matrix -----------------------------------
 	Cette procédure est utilisée par nb_letter_v2, elle permet d'ajouter deux dictionnaires
-	contenant les fréquences de lettres.
+	contenant le nombre d'occurences de chaque de lettres.
 ------------------------------------------------------------------------------------------*/
 void ajout_map(std::map<char,int> &Alpha, std::map<char,int> &Alpha_inter)
 {
@@ -144,7 +144,6 @@ void delete_letter_matrix( char ** Tab,int nb_row, int nb_col)
 
 /*--------------------- Procédure : display_map ----------------------------------------------
 	Cette procédure permet d'afficher le contenu des résultats de nb_letters et nb_letters_v2.
-	Précondition : L'espace mémoire de la matrice Tab doit avoir préalablement allouée.
 ------------------------------------------------------------------------------------------*/
 void display_map (std::map<char,int> &Alpha)
 {
@@ -171,9 +170,9 @@ char** generate_letter_matrix( int nb_row, int nb_col)
 }
 
 
-/*--------------------- Procédure : multi_mat ---------------------------------------------------
+/*--------------------- Procédure : init_mat ---------------------------------------------------
 	Cette procédure permet d'initiliser le dictionnaire des résultats. Le compteur de chaque 
-	lettre est mis à zério
+	lettre est mis à zéro
 	Exemple : A -> 0
 --------------------------------------------------------------------------------------------*/
 void init_map(std::map<char,int> &Alpha)
@@ -227,10 +226,10 @@ void letter_display(char** Tab, int nb_row, int nb_col )
 
 
 /*--------------------- Procédure : nb_letters --------------------------------------------------
-	Cette procédure permet de dénombrer les lettres contenues dans une matrice de char. Elle prend
-	en argument un dictionnaire dont la clé est la lettre et la valeur est le nombre d'occurences
-	de chaque lettre à la fin du parcours de la matricce. Cette fonction est parallélisé sur le 
-	problème complet (Q2.4).
+	Cette procédure permet de calculer les occurences de chaque lettre contenue dans une matrice
+	de char. Elle prend en argument un dictionnaire dont la clé est la lettre et la valeur est le 
+	nombre d'occurences de chaque lettre à la fin du parcours de la matricce. Cette fonction est 
+	parallélisé sur le problème complet (Q2.4).
 -----------------------------------------------------------------------------------------------*/
 void nb_letters(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 {
@@ -249,9 +248,9 @@ void nb_letters(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 
 
 /*--------------------- Procédure : nb_letters_v2 --------------------------------------------------
-	Cette procédure permet de dénombrer les lettres contenues dans une matrice de char. Elle prend
-	en argument un dictionnaire, chaque  clé représente une lettre, la valeur associé correspond au
-	nombre d'occurences trouvées dans la matrice. Cette fonction est parallélisé sur le problème
+	Cette procédure permet de calculer les occurences de chaque lettre contenue dans une matrice de char.
+	 Elle prend en argument un dictionnaire, chaque  clé représente une lettre, la valeur associé correspond au
+	nombre d'occurences de celle-ci dans la matrice. Cette fonction est parallélisé sur le problème
 	découpé (Q2.5 à Q2.7). Ainsi elle crée des dictionnaires intermédiaires permettant le dénombrement
 	des lettres par ligne parcourue, les résultats de chaque ligne sont ensuite ajoutés au dictionnaire
 	des résultats finaux via l'appel à  ajout_map.
@@ -282,21 +281,21 @@ void nb_letters_v2(char**Tab, int nb_row, int nb_col, std::map<char,int> &Alpha)
 
 /*--------------------- Procédure : main_func ------------------------------------------------
 	Cette procédure organise l'éxécution de l'ensemble des fonctions et procédures du programme
-	associé au matrices de lettres. Les résultats de l'éxécution seront stockés dans un fichier,
-	dont le nom est spécifié par l'utilisateur (file_name). Ces derniers seront organisés en cinq
-	colonnes telles que:
+	associé aux matrices de lettres. Les résultats de l'éxécution seront stockés dans un fichier,
+	dont le nom est spécifié par l'utilisateur (file_name). Ces derniers seront organisés en quatre
+	colonnes tel que:
 
 	Nombre de tread | Nb lignes |Nb cols | Durée : parallélisation V1 | Durée : parallélisation V2 
-	éléments d'un vecteur | Durée : Multiplication d'un vecteur par une constante
-
+	 
 	La procédure réalise les étapes suivantes :
-		- 1) Création d'une atruce de la matrice de lettres   et allocation mémoire, 
+		- 1) Création d'une  de la matrice de lettres 
 		- 2) Remplissage de la matrice de lettres (cf: procédure fill_letter),
 		- 3) Initialisation du dictionnaire des résultats
-		- 4) Calcul des fréquences de lettres grâce à la première version de parallélisation, 
+		- 4) Calcul du nombre d'occurence de chaque lettres grâce à la première version de parallélisation, 
 			(nb_letters) et mémorisation de la durée,
-		- 5) Initialisation d'un second dictinnaire final de résultats pour la seconde version de parallélisation
-		- 6) Calcul des fréquences de lettres grâce à la deuxième version de parallélisation, 
+		- 5) Initialisation d'un second dictinnaire global de résultats pour les résultats de la seconde
+			 version de parallélisation
+		- 6) Calcul des fréquences de chaque lettre grâce à la deuxième version de parallélisation, 
 			(nb_letters_v2) et mémorisation de la durée,
 		- 7) Ecriture d'une ligne de résultats
 ------------------------------------------------------------------------------------------*/
