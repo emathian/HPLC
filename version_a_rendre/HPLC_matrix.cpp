@@ -1,17 +1,18 @@
 /*--------------------- RESUME ---------------------------------------------------------
 Ce programme rassemble les fonctions et les procédures de l'exercice 1 sur les matrices
-de nombre.
-
-La mise en parréllélisation de ces dernières a également été implémentée. Ce programme a 
-été réalisé pour évaluer la performance de la parallélisation par passage à l'échelle 
-forte et faible, pour les matrices de NOMBRES.  
+de nombres.
+La mise en parréllélisation de ces dernières a  été implémentée. Ce programme a 
+été réalisé pour évaluer la performance de la parallélisation pour les passages à l'échelle 
+forte et faible.  
+Dans ce fichier les fonctions et procédures sont triées par ordre alphabétique et succinte-
+ment présentées.
 ---------------------------------------------------------------------------------------*/
 
 /*---------------------IMPORATION DES LIBRAIRIES --------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>     /* srand, rand */
-#include "HPLC_TP1_matrix_for_exe.h"
-#include <ctime> // Pour initialier la graine de rand
+#include "HPLC_matrix.h"
+#include <ctime> 
 # include <time.h>
 #include <iostream>
 #include <fstream>
@@ -31,13 +32,13 @@ using namespace std;
 
 /*---------------------CONSIGNES DE COMPLATION --------------------------------------------
 Pour compiler ce fichier merci d'indiquer l'option -fopenmp
-Exemple : g++ -fopenmp HPLC_TP1_matrix_for_exe.cpp -o HPLC_TP1_for_matrix_for_exe
+Exemple : g++ -std=c++11 -fopenmp HPLC_matrix.cpp -o HPLC_matrix
 --------------------------------------------------------------------------------------*/
 
 /*---------------------CONSIGNES D'EXECUTION ----- --------------------------------------
-Pour l'éxution du programme merci d'indiquer en premier argument le type de force, avec 0
-pour la force forte et 1 pour la force faible. Le nombre de runs doit également être spécifié
-Exemple : ./HPLC_TP1_matrix_for_exe 0 10
+Pour l'éxution du programme merci d'indiquer en premier argument le type d'échelle, avec 0
+pour l'échelle forte et 1 pour l'échelle faible. Le nombre de runs doit également être spécifié
+Exemple : ./HPLC_matrix 0 10
 --------------------------------------------------------------------------------------*/
 
 /*---------------------PRROGRAMME PRINCIPAL-------------------------------------------*/
@@ -61,7 +62,7 @@ int main(int argc, char** argv) {
 	/*-------------- PROGRAMME POUR LE PASSAGE A L'ÉCHELLE FORTE --------------------------*/
 	if (force_forte_faible ==0)
 	{
-		int V_nb_thread[] = {1,2,4};// Vecteur définissant le nombre de coeurs qui seront successivement utilisés
+		int V_nb_thread[] = {1,2,4};// Vecteur définissant le nombre de coeurs de calcul qui seront successivement utilisés
 		int V_nb_rows[] = {1000,2000,3000, 4000, 5000}; // Vecteur définissant le nombre de lignes dans les matrices 
 		int V_nb_cols[] = {1000,2000,3000, 4000, 5000};  // Vecteur définissant le nombre de colonnes dans les matrices 
 
@@ -74,7 +75,7 @@ int main(int argc, char** argv) {
 
 				int nb_row =V_nb_rows[j] ; // Nombre de lignes courantes
 				int nb_col =V_nb_cols[j] ; // Nombre de colonnes courantes 
-				int nb_thread = V_nb_thread[i]; // Nombre de coeurs courant
+				int nb_thread = V_nb_thread[i]; // Nombre de coeurs de calcul courant
 			
 				/* ################### PARALLELISATION ################# */
 				omp_set_num_threads(nb_thread); 
@@ -198,22 +199,22 @@ double** generate_matrix( int nb_row, int nb_col)
 	return Tab;
 }
 
-/*--------------------- Procédure : main_func ------------------------------------------------
-	Cette procédure organise l'éxécution de l'ensemble des fonctions et procédures du programme
+/*--------------------- Procédure : main_func -------------------------------------------------------
+	Cette procédure organise l'éxécution de l'ensemble des fonctions et des procédures du programme
 	associé au matrices de nombres. Les résultats de l'éxécution seront stockés dans un fichier,
 	dont le nom est spécifié par l'utilisateur (file_name). Ces derniers seront organisés en cinq
-	colonnes telles que:
+	colonnes tel que:
 
 	Nombre de tread | Nb lignes |Nb cols | Durée : somme de deux vecteurs | Durée : Somme des 
 	éléments d'un vecteur | Durée : Multiplication d'un vecteur par une constante
 
 	La procédure réalise les étapes suivantes :
-		- 1) Création de trois vecteurs  de double et allocation mémoire, 
-		- 2) Remplissage de deux vecteur (cf: procédure fill et random),
-		- 3) Calcul de la somme de deux vecteurs (cf : sum_two_vector ), et mémorisation de la durée,
-		- 4) Calcul de la somme des éléments d'un vecteur (cf : sum_vector ), et mémorisation de la durée,
-		- 5) Multiplication d'un vecteur par un double (cf : multi_vector) et mémorisation de la durée.
-------------------------------------------------------------------------------------------*/
+		- 1) Création de trois matrices  de double et allocation mémoire, 
+		- 2) Remplissage de deux matrices (cf: procédure fill et random),
+		- 3) Calcul de la somme de deux matrices (cf : sum_two_mat ), et mémorisation de la durée,
+		- 4) Calcul de la somme des éléments d'une matrice (cf : sum_mat ), et mémorisation de la durée,
+		- 5) Multiplication d'une matrice par un double (cf : multi_mat) et mémorisation de la durée.
+------------------------------------------------------------------------------------------------------*/
 void main_func(const int nb_thread, const int  nb_row, const int  nb_col, const char* file_name , const double A)
 {
 	ofstream myfile;
@@ -287,8 +288,8 @@ double Random (double min , double max)
 
 /*--------------------- Fonction : sum_mat --------------------------------------------------
 	Cette fonction permet de sommer les éléments d'une matrice.
-	La parallélisation de cette opération de sommation est assurée par réduction. Ainsi chaque thread
-	calcule un résultat partiel, puis le résultat final est calculé par sommation des résultats 
+	La parallélisation de cette fonction est assurée par réduction sur l'opération somme. Ainsi 
+	chaque thread calcule un résultat partiel, puis le résultat final est calculé par somme des résultats 
 	intermédiaires. 
 --------------------------------------------------------------------------------------------*/
 double sum_mat( double** m, const int nb_row , const int nb_col)
