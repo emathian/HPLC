@@ -1,24 +1,21 @@
 /*--------------------- RESUME ---------------------------------------------------------
 Ce programme rassemble les fonctions et les procédures de l'exercice 1 sur les vecteurs.
-La mise en parréllélisation de ces dernières a également été implémentée. Ce programme a 
+La mise en parréllélisation de ces dernières a  été implémentée. Ce programme a 
 été réalisé pour évaluer la performance de la parallélisation par passage à l'échelle 
 forte et faible.  
-
-Ce programma est quasi équivalent à celle de HPLC_TP1.cpp, mais introduit le main
-nécéssaire à l'évauation des passages à l'échelle.
 ---------------------------------------------------------------------------------------*/
 
 /*---------------------IMPORATION DES LIBRAIRIES --------------------------------------*/
 #include <stdio.h>
-#include <stdlib.h>     /* srand, rand */
-#include "HPLC_TP1_for_exe.h"
-#include <ctime> // Pour initialier la graine de rand
+#include <stdlib.h>     
+#include "HPLC_vectors.h"
+#include <ctime> /
 #include <time.h>
 #include <iostream>
 #include <fstream>
 #include <map>
 #include <string>
-#include <fstream> //
+#include <fstream> 
 
 using namespace std; 
 #define SIZE 256// Taille du buffer pour le nom du fichier des résultats.
@@ -30,7 +27,7 @@ using namespace std;
 
 /*---------------------CONSIGNES DE COMPLATION --------------------------------------------
 Pour compiler ce fichier merci d'indiquer l'option -fopenmp
-Exemple : g++ -fopenmp HPLC_TP1_for_exe.cpp -o HPLC_TP1_for_exe
+Exemple : g++ -fopenmp HPLC_vectors.cpp -o HPLC_vectors
 --------------------------------------------------------------------------------------*/
 
 /*---------------------CONSIGNES D'EXECUTION ----- --------------------------------------
@@ -47,11 +44,11 @@ int main(int argc, char** argv) {
 	/*-------------- OPTIONS D'ÉXECUTION ----------------------------------------------*/
 	// Initialisation du fichier des résultats
 	char file_name[SIZE]; 
-	cout << "Entrer le nom du fichier de sortie : ";
+	cout << "Entrez le nom du fichier de sortie : ";
 	cin>> file_name;
 	ofstream myfile;
   	myfile.open ( file_name, fstream::app);
-	myfile <<  "nb_thread \t Taille_tab\tdiff1 somme deux vect\tdiff2 somme vect\tdiff3 multi vect\n";	
+	myfile <<  "nb_thread \t Taille_tab \tdiff1_somme_deux_vect \t diff2_somme_vect\tdiff3_multi_vect\n";	
 	myfile.close();
 
 
@@ -63,17 +60,17 @@ int main(int argc, char** argv) {
 	/*-------------- PROGRAMME POUR LE PASSAGE A L'ÉCHELLE FORTE --------------------------*/
 	if (force_forte_faible ==0)
 	{
-		int V_nb_thread[] = {1,2,4}; // Vecteur définissant le nombre de core qui seront successivement utilisés
+		int V_nb_thread[] = {1,2,4}; // Vecteur définissant le nombre de coeurs de calcul qui seront successivement utilisés
 		int V_Taille_tab[] = {1000000,5000000,10000000, 20000000, 30000000}; // Vecteur définissant la taille des vecteurs successivement générés
 
 		for (int z=0; z<nb_runs ; z++)// Pour le nombre de runs défini par l'utilisateur  
 		{ 
 			for (int i=0 ; i<3 ; i++)// Pour chaque nombre de coeurs défini dans V_nb_thread
 			{ 
-				for (int j=0 ; j<5 ; j++) // Pour chaque taille de vecteur de core défini dans V_Taille_tab		
+				for (int j=0 ; j<5 ; j++) // Pour chaque taille de vecteur défini dans V_Taille_tab		
 				{
-					int Taille_tab =V_Taille_tab[j] ; // Taille courante des vecteurs
-					int nb_thread = V_nb_thread[i]; // Nombre de coeurs courant
+					int Taille_tab =V_Taille_tab[j] ; 
+					int nb_thread = V_nb_thread[i]; 
 					
 					/* ################### PARALLELISATION ################# */
 					omp_set_num_threads(nb_thread); 
@@ -120,7 +117,7 @@ int main(int argc, char** argv) {
 
 
 /*--------------------- Procédure : display  ------------------------------------------------
-	Cette procédure permet l'affichage d'un vecteur de taille définit.
+	Cette procédure permet l'affichage d'un vecteur de taille défini.
 	Précondition : Le vecteur (Tab) doit être instancié, et la mémoire nécessaire allouée.
 --------------------------------------------------------------------------------------------*/
 void display(const double* Tab, const int Taille_tab)
@@ -140,7 +137,7 @@ void display(const double* Tab, const int Taille_tab)
 
 
 /*--------------------- Procédure : fill --------------------------------------------------
-	Cette procédure permet le remplissage d'un vecteur, de taille défini, par des doubles
+	Cette procédure permet le remplissage d'un vecteur,  par des doubles
 	générés aléatoirement compris entre min et max. La parallélisation de cette opératon est
 	assurée.
 ------------------------------------------------------------------------------------------*/
@@ -157,16 +154,16 @@ void fill(double* Tab , int Taille_tab, int min, int max )
 }
 
 /*--------------------- Procédure : main_func ------------------------------------------------
-	Cette procédure organise l'éxécution de l'ensemble des fonctions et procédures du programme.
+	Cette procédure organise l'éxécution de l'ensemble des fonctions et des procédures du programme.
 	Les résultats de l'éxécution seront stockés dans un fichier, dont le nom est spécifié par 
-	l'utilisateur (file_name). Ces derniers seront organisés en quatres colonnes telles que:
+	l'utilisateur (file_name). Ils seront organisés en quatres colonnes tel que:
 
 	Nombre de tread | Taille des vecteurs | Durée : somme de deux vecteurs | Durée : Somme des 
 	éléments d'un vecteur | Durée : Multiplication d'un vecteur par une constante
 
 	La procédure réalise les étapes suivantes :
-		- 1) Création de trois vecteurs  de double et allocation mémoire, 
-		- 2) Remplissage de deux vecteur (cf: procédure fill et random),
+		- 1) Création de trois vecteurs  de doubles et allocation mémoire, 
+		- 2) Remplissage de deux vecteurs (cf: procédure fill et random),
 		- 3) Calcul de la somme de deux vecteurs (cf : sum_two_vector ), et mémorisation de la durée,
 		- 4) Calcul de la somme des éléments d'un vecteur (cf : sum_vector ), et mémorisation de la durée,
 		- 5) Multiplication d'un vecteur par un double (cf : multi_vector) et mémorisation de la durée.
@@ -191,18 +188,17 @@ void main_func(const int nb_thread, const int  Taille_tab, const char* file_name
 	double min = 0; 
 	double max = 10; 
 
-	// Remplissage des vecteurs de taille = Taille_tab par des nombre aléatoires compris 
-	// entre min et max :
+	// Remplissage des vecteurs de taille = Taille_tab par des nombre aléatoires compris entre min et max :
 	fill (Tab1, Taille_tab, min , max);
 	fill (Tab2, Taille_tab, min , max);
 
-	// Tâche N°1  : Spmme de deux vecteurs
+	// Tâche N°1  : Somme de deux vecteurs
 	int before1 = (clock() *1000 / CLOCKS_PER_SEC); // Initialisation du chronomètre
 	sum_two_vector(Tab_sum , Tab1 , Tab2 ,Taille_tab  , Taille_tab ); // Somme de Tab1 et Tab2 pour le remplissage de Tab_sum
 	int after1=  (clock() *1000 / CLOCKS_PER_SEC); // Arrêt du chronmètre
 	int diff1 = after1 - before1; // Durée de la tâche N°1 
 
-	// Tâche N°2  : Spmme des éléments d'un vecteur
+	// Tâche N°2  : Somme des éléments d'un vecteur
 	int before2 = (clock() *1000 / CLOCKS_PER_SEC);// Initialisation du chronomètre
 	double s  = sum_vector(Tab1 , Taille_tab); // Calcul de la somme des éléments de Tab1
 	int after2=  (clock() *1000 / CLOCKS_PER_SEC); // Arrêt du chronmètre
@@ -214,7 +210,7 @@ void main_func(const int nb_thread, const int  Taille_tab, const char* file_name
 	int after3=  (clock() *1000 / CLOCKS_PER_SEC);// Arrêt du chronmètre
 	int diff3 = after3 - before3;// Durée de la tâche N°3
 	
-	// Ecriture de la durée des différentes tâches en fonction du nombre de cores et de la taille des vecteurs
+	// Ecriture de la durée des différentes tâches en fonction du nombre de coeurs de calcul et de la taille des vecteurs
 	myfile <<  nb_thread <<"\t"<< Taille_tab <<"\t"  << diff1 <<"\t" << diff2 <<"\t" << diff3 <<   "\n";
   	myfile.close();
   
@@ -256,8 +252,8 @@ double Random (double min , double max)
 
 
 /*--------------------- Procédure : sum_two_vector (Somme de deux vecteurs)  ----------------
-	Cette procédure permet de sommer deux vecteurs et retourne les résultats dans un vecteur v3.
-	Cette opération est parallélisée.
+	Cette procédure permet de sommer deux vecteurs et retourne les résultats dans 
+	troisième vecteur v3. Cette opération est parallélisée.
 --------------------------------------------------------------------------------------------*/
 void sum_two_vector(double * v3 , const double * v1 , const double * v2 , const int taille_v1 , const int taille_v2   )
 
@@ -281,9 +277,9 @@ void sum_two_vector(double * v3 , const double * v1 , const double * v2 , const 
 
 /*--------------------- Fonction : sum_vector (Somme des éléments d'un vecteur)  ----------------
 	Cette fonction permet de sommer les éléments d'un vecteur et retourne le résultat (double).
-	La parallélisation de cette opération de sommation est assurée par réduction. Ainsi chaque thread
-	calcule un résultat partiel, puis le résultat final est calculé par sommation des résultats 
-	intermédiaires. 
+	La parallélisation de cette opération  est assurée par une réduction sur l'opération sommme.
+	Ainsi chaque thread calcule un résultat partiel, puis le résultat final est calculé par 
+	sommation des résultats intermédiaires. 
 --------------------------------------------------------------------------------------------*/
 double sum_vector(const double Tab[], int Taille_tab)
 {
